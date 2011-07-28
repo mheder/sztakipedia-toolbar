@@ -1,0 +1,85 @@
+<project name="Sztakipedia Toolbar" default="help" basedir=".">
+
+	<target name="help">
+		<echo message="Common build targets:" />
+		<echo message="build       - Same as clean+compile" />
+		<echo message="compile     - Compiles JavaScript files by Closure" />
+		<echo message="clean       - Remove all generated files" />
+	</target>
+
+	<!-- <property name="" value="" />-->
+
+	<!-- JsDoc toolkit -->
+	<taskdef 
+		name="jsdoctoolkit" 
+		classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" 
+		classpath="${basedir}/lib/jsdoc-toolkit-ant-task-1.1.2/jsdoc-toolkit-ant-task-1.1.2.jar:${basedir}/lib/rhino1_7R1/js.jar"
+		/>
+		
+	<!-- Closure Compiler -->
+	<taskdef 
+		name="jscomp" 
+		classname="com.google.javascript.jscomp.ant.CompileTask"
+		classpath="${basedir}/lib/closure-compiler-20110615/compiler.jar"/>
+		
+	<!-- TARGETS -->
+	
+	<!-- build -->
+	<target name="build" depends="clean,compile" />
+
+	<!-- all -->
+	<target name="all" depends="clean,compile,jsdoc" />
+
+	<!-- generate HTML documentation -->
+	<target name="jsdoc">
+		<jsdoctoolkit 
+				jsdochome="${basedir}/lib/jsdoc-toolkit-2.4.0/"
+				template="jsdoc" 
+				outputdir="docs/jsdoc"
+				includeprivate="yes"
+				includeundocumented="yes"
+				verbose="yes">
+				
+			<fileset dir="${basedir}/src">
+				<include name="*.js" />
+			</fileset>
+			
+		</jsdoctoolkit>
+	</target>
+	
+	<!-- invoke compiler -->
+	<target name="compile">
+    	<jscomp compilationLevel="simple"
+				warning="verbose" 
+				debug="false" 
+				output="${basedir}/build/Sztakipedia.js">
+
+			<externs dir="${basedir}/src">
+				<file name="SztakipediaToolbarMessages-en.js"/>
+			</externs>
+
+			<sources dir="${basedir}/src">
+				<!-- <fileset> not supported -->
+				<file name="SztakipediaToolbar.js"/>
+				<file name="SztakipediaToolbarBase.js"/>
+				<file name="SztakipediaToolbarConfig.js"/>
+				<file name="SztakipediaClient.js"/>
+			</sources>
+			
+			<!--
+			<sources dir="${basedir}/other">
+				<file name="simple3.js"/>
+			</sources>
+			-->
+
+		</jscomp>
+    
+	</target>
+
+	<!-- remove generated files -->
+	<target name="clean">
+		<delete dir="${basedir}/docs/jsdoc"/>
+		<delete dir="${basedir}/build"/>
+	</target>
+
+</project>

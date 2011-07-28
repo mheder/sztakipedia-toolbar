@@ -53,6 +53,11 @@
 				warning="verbose" 
 				debug="false" 
 				output="${basedir}/build/Sztakipedia.js">
+				
+			<externs dir="${basedir}/src/extern">
+				<file name="jquery-1.6.extern.js"/>
+				<file name="mediawiki.extern.js"/>
+			</externs>
 
 			<!--
 			<externs dir="${basedir}/lib/mediawiki-ui-1.16">

@@ -80,7 +80,6 @@
 			
 			<externs dir="${basedir}/src">
 				<file name="SztakipediaToolbarMessages-en.js"/>
-				<file name="extern.js"/>
 			</externs>
 			
 			<sources dir="${basedir}/src">

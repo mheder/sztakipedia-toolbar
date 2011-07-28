@@ -1,5 +1,8 @@
 // Global object
 if (typeof SztakipediaTB == 'undefined') {
+	/**
+	 * @namespace
+	 */
 	var SztakipediaTB = {
 		"Templates" : {}, // All templates TODO from SztakipediaTB
 		"Suggestions" : {},
@@ -8,6 +11,7 @@ if (typeof SztakipediaTB == 'undefined') {
 		"UserOptions" : {}, // User options
 		"DefaultOptions" : {} // Script defaults
 	};
+	window['SztakipediaTB'] = SztakipediaTB; // for Closure	
 }
 
 //// JsonML (JSON => XML DOM) FIXME HACK
@@ -258,7 +262,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 					},
 					buttons : {
 						'wikieditor-toolbar-tool-link-cancel' : function() {
-							Łj(this).dialog('close');
+							$j(this).dialog('close');
 						}
 					}
 				}
@@ -1199,7 +1203,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		var id = res[1];
 		var field = res[2];
 		var DT = new Date();
-		datestr = SztakipediaTB.formatDate(DT);
+		var datestr = SztakipediaTB.formatDate(DT);
 		$j('#sztakipedia-' + id + '-' + field).val(datestr);
 		return false;
 	};
@@ -1278,7 +1282,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		var form = $j('<div id="sztakipedia-errorcheck-heading" />').html(mw.usability.getMsg('sztakipedia-errorcheck-heading'));
 		var ul = $j("<ul id='sztakipedia-errcheck-list' />");
 		for ( var t in SztakipediaTB.ErrorChecks) {
-			test = SztakipediaTB.ErrorChecks[t];
+			var test = SztakipediaTB.ErrorChecks[t];
 			ul.append(test.getRow());
 		}
 		form.append(ul);
@@ -1812,7 +1816,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 
 		// initialize blocks
 		var html = '';
-		var blocks = [ 'sztakipedia-dialog-info-session', 'sztakipedia-dialog-info-dialogbuilders', 'sztakipedia-dialog-info-processors', ];
+		var blocks = [ 'sztakipedia-dialog-info-session', 'sztakipedia-dialog-info-dialogbuilders', 'sztakipedia-dialog-info-processors' ];
 		for ( var i in blocks) {
 			var id = blocks[i];
 			html += '<div id="' + id + '-container" class="sztakipedia-dialog-block">' + '<span class="sztakipedia-dialog-block-title">'
@@ -2028,11 +2032,11 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	SztakipediaTB.displayErrors = function(errors) {
 		$j('#sztakipedia-err-report').remove();
 		var table = $j('<table id="sztakipedia-err-report" style="width:100%; border:1px solid #A9A9A9; background-color:#FFEFD5; padding:0.25em; margin-top:0.5em" />');
-		$j('#editpage-copywarn').before(ta0le);
+		$j('#editpage-copywarn').before(table);
 		var tr1 = $j('<tr style="width:100%" />');
 		var th1 = $j('<th style="width:60%; font-size:110%" />').html(mw.usability.getMsg('sztakipedia-err-report-heading'));
 		var th2 = $j('<th style="text-align:right; width:40%" />');
-		im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png');
+		var im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png');
 		im.attr('alt', mw.usability.getMsg('sztakipedia-err-report-close')).attr('title', mw.usability.getMsg('sztakipedia-err-report-close'));
 		var ad = $j('<a id="sztakipedia-err-check-close" />').attr('href', '#');
 		ad.append(im);

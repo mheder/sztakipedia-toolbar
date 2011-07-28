@@ -54,10 +54,30 @@
 				debug="false" 
 				output="${basedir}/build/Sztakipedia.js">
 
+			<!--
+			<externs dir="${basedir}/lib/mediawiki-ui-1.16">
+				<file name="usability.js"/>
+				<file name="plugins.combined.js"/>
+			</externs>
+			
+			<externs dir="${basedir}/lib/mediawiki-common">
+				<file name="wikibits.js"/>
+				<file name="ajax.js"/>
+				<file name="MediaWiki_Common.js"/>
+			</externs>
+			-->
+			<!--
+
+			<externs dir="${basedir}/lib/mediawiki-vector">
+				<file name="vector.js"/>
+			</externs>
+			-->
+			
 			<externs dir="${basedir}/src">
 				<file name="SztakipediaToolbarMessages-en.js"/>
+				<file name="extern.js"/>
 			</externs>
-
+			
 			<sources dir="${basedir}/src">
 				<!-- <fileset> not supported -->
 				<file name="SztakipediaToolbar.js"/>

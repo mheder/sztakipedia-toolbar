@@ -1,5 +1,10 @@
 // Global object
 if (typeof SztakipediaClient == 'undefined') {
+	/**
+	 * @class Offers convenient interface to the Sztakipedia REST API services.
+	 * @constructor
+	 * @namespace
+	 */	
 	var SztakipediaClient = {
 
 		// Global options			

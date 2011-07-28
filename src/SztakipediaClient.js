@@ -11,6 +11,7 @@ if (typeof SztakipediaClient == 'undefined') {
 		// Script defaults
 		"DefaultOptions" : {}
 	};
+	window['SztakipediaClient'] = SztakipediaClient; // for Closure		
 }
 
 /**

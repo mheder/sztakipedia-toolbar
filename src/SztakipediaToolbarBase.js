@@ -1,6 +1,6 @@
 // Global object
 if (typeof SztakipediaTB == 'undefined') {
-	var SztakipediaTB = {
+	SztakipediaTB = {
 		"Templates" : {}, // All templates
 		"Suggestions" : {},
 		"Options" : {}, // Global options
@@ -9,6 +9,7 @@ if (typeof SztakipediaTB == 'undefined') {
 		"ErrorChecks" : {}
 	// Error check functions
 	};
+	window['SztakipediaTB'] = SztakipediaTB; // for Closure
 }
 
 // Localized message text repository
@@ -62,15 +63,16 @@ function decodeXmlJ(str) {
 //});
 // Add a .non-empty class to 
 function adjustCssClassEmptiness() {
-	if ($(this).val())
+	var el = $j(this);
+	if (el.val())
 	{
-		$(this).removeClass('empty');
-		$(this).addClass('non-empty');
+		el.removeClass('empty');
+		el.addClass('non-empty');
 	}
 	else
 	{
-		$(this).removeClass('non-empty');
-		$(this).addClass('empty');
+		el.removeClass('non-empty');
+		el.addClass('empty');
 	}
 }
 
@@ -99,7 +101,7 @@ function sztakipediaTemplate(templatename, shortform, basicfields, expandedfield
 			var field = fieldobj.field;
 			var ad = false;
 			if ($j.inArray(field, SztakipediaTB.getOption('autodate fields')) != -1) {
-				im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png');
+				var im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png');
 				im.attr('alt', mw.usability.getMsg('sztakipedia-insert-date')).attr('title', mw.usability.getMsg('sztakipedia-insert-date'));
 				var ad = $j('<a />').attr('href', '#');
 				ad.append(im);

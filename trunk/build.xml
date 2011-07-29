@@ -35,9 +35,9 @@
 		<jsdoctoolkit 
 				jsdochome="${basedir}/lib/jsdoc-toolkit-2.4.0/"
 				template="sztaki" 
-				outputdir="${basedir}/docs/jsdoc"
+				outputdir="${basedir}/docs/jsdoc/"
 				inputdir="src" depth="0"
-				includeprivate="no"
+				includeprivate="yes"
 				includeundocumented="no"
 				verbose="yes">
 				<arg name="copyright" value=" 2011 - MTA SZTAKI "/>
@@ -62,12 +62,11 @@
 				<file name="mediawiki.extern.js"/>
 			</externs>
 
-			<!--
+			<!--	
 			<externs dir="${basedir}/lib/mediawiki-ui-1.16">
 				<file name="usability.js"/>
 				<file name="plugins.combined.js"/>
 			</externs>
-			
 			<externs dir="${basedir}/lib/mediawiki-common">
 				<file name="wikibits.js"/>
 				<file name="ajax.js"/>
@@ -105,7 +104,7 @@
 
 	<!-- remove generated files -->
 	<target name="clean">
-		<delete dir="${basedir}/docs/jsdoc"/>
+		<!--<delete dir="${basedir}/docs/jsdoc"/>-->
 		<delete dir="${basedir}/build"/>
 	</target>
 

@@ -1,3 +1,5 @@
+/* Copyright 2011 MTA SZTAKI - Licensed under: GNU General Public License v2.0 or later */
+
 // All user-facing messages
 // TODO: Document usage
 mw.usability.addMessages( { 

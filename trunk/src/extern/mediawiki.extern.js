@@ -33,9 +33,43 @@ var wgDBname,
 	wgScript,
 	wgScriptPath;
 	
-var mediaWiki, mw;
+var mediaWiki;
+
+var mw = function() {
+	this.messages;
+	this.usability = function () {
+ 		/**
+ 		 * getMsg
+ 		 * @param {string} msgid
+ 		 * @return {string} 
+ 		 */
+ 		 this.getMsg = function(msgid) {
+ 		 	
+ 		 }
+ 	};
+}
+
 
 var NavFrame;
 
-// jQuery
+/**
+ * jQuery
+ */
 var $j;
+
+
+
+/**
+ * @constructor
+ */
+function wikiEditor() {}
+
+/**
+ * @constructor
+ * @param {string} arg1
+ * @param {*} arg2
+ * @return {wikiEditor}
+ */
+wikiEditor.prototype.wikiEditor = function (arg1, arg2) {};
+
+

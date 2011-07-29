@@ -1,17 +1,62 @@
+/* Copyright 2011 MTA SZTAKI - Licensed under: GNU General Public License v2.0 or later */
+
 // Global object
 if (typeof SztakipediaTB == 'undefined') {
 	/**
-	 * @namespace
+	 * @namespace Provides a toolbar for WikiEditor with tools to easily insert links, categories, references, etc.
+	 * @requires SztakipediaClient
+	 * @requires sztakipediaTemplate
+	 * @requires MediaWiki-UI
+	 * @requires jQuery
+	 * @public 
 	 */
 	var SztakipediaTB = {
-		"Templates" : {}, // All templates TODO from SztakipediaTB
-		"Suggestions" : {},
-		"Dialogs" : {}, // All dialogs
+		/**
+		 * All {@link sztakipediaTemplate} objects.
+		 * @field
+		 * @type Object
+		 * @name SztakipediaTB.Templates
+		 */
+		"Templates" : {},
+		/**
+		 * All dialogs.
+		 * @field
+		 * @type Object
+		 * @name SztakipediaTB.Dialogs
+		 */
+		"Dialogs" : {},
+
+		/**
+		 * Site-wide options that override {@link SztakipediaTB.DefaultOptions}, and are overidden by {@link SztakipediaTB.UserOptions}.
+		 * @field
+		 * @type Object
+		 * @name SztakipediaTB.Options
+		 */		
 		"Options" : {}, // Global options
+		
+		/**
+		 * User options that override {@link SztakipediaTB.DefaultOptions} and {@link SztakipediaTB.Options}.
+		 * @field
+		 * @type Object
+		 * @name SztakipediaTB.UserOptions
+		 * @public
+		 */		
 		"UserOptions" : {}, // User options
+		
+		/**
+		 * Global default options that are overidden by  {@link SztakipediaTB.Options} and by {@link SztakipediaTB.UserOptions}.
+		 * It mainly exist so the script won't break if a new option is added.
+		 * @field
+		 * @type Object
+		 * @name SztakipediaTB.DefaultOptions
+		 * @private
+		 */				
 		"DefaultOptions" : {} // Script defaults
 	};
-	window['SztakipediaTB'] = SztakipediaTB; // for Closure	
+	window['SztakipediaTB'] = SztakipediaTB; // export name to be preserved
+	
+	;
+		
 }
 
 //// JsonML (JSON => XML DOM) FIXME HACK
@@ -61,8 +106,6 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 
 	//appendCSS('.ui-dialog-content input.non-empty {' +"background-color: red;" + "}"); TODO fix higlighting of non.empty fields
 
-	// Default options, these mainly exist so the script won't break if a new
-	// option is added
 	SztakipediaTB.DefaultOptions = {
 		"date format" : "<year>-<zmonth>-<zdate>",
 		"autodate fields" : [],
@@ -73,9 +116,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		"debug" : false,
 		"basedir" : "http://pediadev.sztaki.hu/~illes/SztakipediaToolbar/"
 	};
+	SztakipediaTB['DefaultOptions'] = SztakipediaTB.DefaultOptions; // export name for Closure 
 	
 	/**
-	 * Get an option - user settings override global which override defaults
+	 * Get an option - user settings override site-wide which override defaults.
+	 * @param {string|undefined} opt The name of the option.
+	 * @return {string} The value of the option.
 	 */
 	SztakipediaTB.getOption = function(opt) {
 		if (SztakipediaTB.UserOptions[opt] != undefined) {
@@ -87,12 +133,19 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		return SztakipediaTB.DefaultOptions[opt];
 	};
 
+
+	/**
+	 * The textarea to attach to.
+	 * @return {jQuery|wikiEditor} The jQuery DOM element of the main text input field.
+	 */
 	SztakipediaTB.getTarget = function() {
 		return $j('#wpTextbox1');
 	};
 
 	/**
-	 * Create a WikiEditor dialog from a SztakipediaTemplate object
+	 * Create a WikiEditor dialog from a {@link sztakipediaTemplate} object.
+	 * @param {Object} tem The {@link sztakipediaTemplate} object to create a dialog for.
+	 * @return {Object} A WikiEditor-style dialog descriptor.  
 	 */
 	SztakipediaTB.toDialog = function(tem) {
 		var sform = SztakipediaTB.escStr(tem.shortform);
@@ -168,6 +221,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		return dialog;
 	};
 
+	/**
+	 * Initialize the book reference insertion tool.
+	 * @private
+	 */
 	SztakipediaTB.initBook = function() {
 
 		// Add dialog
@@ -240,6 +297,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};
 
+	/**
+	 * Initialize the internal link insertion tool.
+	 * @private
+	 */
 	SztakipediaTB.initLink = function() {
 
 		// Add dialog
@@ -314,6 +375,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};
 
+	/**
+	 * Initialize the category link insertion tool.
+	 * @private
+	 */
 	SztakipediaTB.initCategory = function() {
 
 		// Add dialog
@@ -363,6 +428,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};
 
+	/**
+	 * Initialize the infobox insertion tool.
+	 * @private
+	 */
 	SztakipediaTB.initInfobox = function() {
 		// Add dialog
 		var infoboxDialog = {
@@ -412,6 +481,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};			
 
+	/**
+	 * Initialize the toolbar for debugging tools.
+	 * @private
+	 */
 	SztakipediaTB.initInfo = function() {
 
 		// Add dialog
@@ -514,13 +587,13 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};
 
+	/**
+	 * Initialize the toolbar. Adds a new toolbar section with tools, creates precomputable dialog windows.
+	 * Shall be called only once.  
+	 * @private
+	 */
 	SztakipediaTB.init = function() {
-		/*
-		 * Main stuff, build the actual toolbar structure 1. get the template list, make the dropdown list and set up
-		 * the template dialog boxes TODO from SztakipediaTB 2. actually build the toolbar: A section for cites *
-		 * dropdown for the templates (previously defined) * button for named refs with a dialog box * * button for
-		 * errorcheck 3. add the whole thing to the main toolbar
-		 */
+
 		//alert('init: ' + $j('div[rel=sztakipedias]')[0]);
 		//		if (typeof $j('div[rel=sztakipedias]')[0] != 'undefined') { // Mystery IE bug workaround
 		//			return;
@@ -528,52 +601,24 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		$j('head').trigger('sztakipediatoolbarbase'); // allow callbacks
 //		alert('init');
 		
-		// FIXME get URL from options
 		importScriptURI( SztakipediaTB.getOption('basedir') + 'SztakipediaClient.js');
 		
 
 		var refsection = {
-			'sections' : {
-				'sztakipedias' : {
+			sections : {
+				sztakipedias : {
 					type : 'toolbar',
 					labelMsg : 'sztakipedia-section-label',
 					groups : {
 								'suggestions' : {
 									'label' : 'Suggestions' // FIXME use labelMsg for a localized label
 						}
-					}
-						
-//						,
-//					groups : {
-//						'template' : {
-//							tools : {
-//								'template' : {
-//									type : 'select',
-//									labelMsg : 'sztakipedia-template-list',
-//									list : temlist
-//								}
-//							}
-//						}
-//					/*
-//					 * ,
-//					 * 
-//					 * 'namedrefs' : { labelMsg : 'sztakipedia-named-refs-label', tools : { 'nrefs' : { type : 'button',
-//					 * action : { type : 'dialog', module : 'sztakipedia-toolbar-namedrefs' }, icon :
-//					 * 'http://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nuvola_clipboard_lined.svg/22px-Nuvola_clipboard_lined.svg.png',
-//					 * section : 'sztakipedias', group : 'namedrefs', labelMsg : 'sztakipedia-named-refs-button' } } },
-//					 * 'errorcheck' : { labelMsg : 'sztakipedia-errorcheck-label', tools : { 'echeck' : { type :
-//					 * 'button', action : { type : 'dialog', module : 'sztakipedia-toolbar-errorcheck' }, icon :
-//					 * 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Nuvola_apps_korganizer-NO.png/22px-Nuvola_apps_korganizer-NO.png',
-//					 * section : 'sztakipedias', group : 'errorcheck', labelMsg : 'sztakipedia-errorcheck-button' } } }
-//					 */
-//					}
+					}						
 				}
 			}
 		};
-		$j('#sztakipedia-namedrefs').unbind('dialogopen');
 		if (!SztakipediaTB.getOption('modal')) {
-			// $j('#sztakipedia-namedrefs').dialog('option', 'modal', false);
-			// $j('#sztakipedia-errorcheck').dialog('option', 'modal', false);
+			// $j('#sztakipedia-???').dialog('option', 'modal', false);
 			appendCSS(".ui-widget-overlay {" + "display:none !important;" + "}");
 		}
 		SztakipediaTB.getTarget().wikiEditor('addToToolbar', refsection);
@@ -694,80 +739,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			};
 		}
 
-		var defaultdialogs = {
-//			'sztakipedia-toolbar-errorcheck' : {
-//				titleMsg : 'sztakipedia-errorcheck-label',
-//				id : 'sztakipediatoolbar-errorcheck',
-//				resizeme : false,
-//				init : function() {
-//				},
-//				html : '<div id="sztakipedia-namedref-loading">' + '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' + '&nbsp;'
-//						+ mw.usability.getMsg('sztakipedia-loading') + '</div>',
-//				dialog : {
-//					width : 550,
-//					open : function() {
-//						SztakipediaTB.loadRefs();
-//					},
-//					buttons : {
-//						'sztakipedia-errorcheck-submit' : function() {
-//							var errorchecks = $j("input[name='sztakipedia-err-test']:checked");
-//							var errors = [];
-//							for ( var i = 0; i < errorchecks.length; i++) {
-//								errors = errors.concat(SztakipediaTB.ErrorChecks[$j(errorchecks[i]).val()].run());
-//							}
-//							SztakipediaTB.displayErrors(errors);
-//							$j(this).dialog('close');
-//						},
-//						'wikieditor-toolbar-tool-link-cancel' : function() {
-//							$j(this).dialog('close');
-//						}
-//					}
-//				}
-//			},
-//			'sztakipedia-toolbar-namedrefs' : {
-//				titleMsg : 'sztakipedia-named-refs-title',
-//				resizeme : false,
-//				id : 'sztakipediatoolbar-namedrefs',
-//				html : '<div id="sztakipedia-namedref-loading">' + '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' + '&nbsp;'
-//						+ mw.usability.getMsg('sztakipedia-loading') + '</div>',
-//				init : function() {
-//				},
-//				dialog : {
-//					width : 550,
-//					open : function() {
-//						SztakipediaTB.loadRefs();
-//					},
-//					buttons : {
-//						'sztakipedia-form-submit' : function() {
-//							var refname = $j("#sztakipedia-namedref-select").val();
-//							if (refname == '') {
-//								return;
-//							}
-//							$j.wikiEditor.modules.toolbar.fn.doAction($j(this).data('context'), {
-//								type : 'encapsulate',
-//								options : {
-//									peri : ' '
-//								}
-//							}, $j(this));
-//							$j(this).dialog('close');
-//							$j.wikiEditor.modules.toolbar.fn.doAction($j(this).data('context'), {
-//								type : 'encapsulate',
-//								options : {
-//									pre : SztakipediaTB.getNamedRef(refname, true)
-//								}
-//							}, $j(this));
-//						},
-//						'wikieditor-toolbar-tool-link-cancel' : function() {
-//							$j(this).dialog('close');
-//						}
-//					}
-//				}
-//			}
-		};
-
-//		SztakipediaTB.getTarget().wikiEditor('addDialog', defaultdialogs);
-
-		// add suggestion builders
+		// add suggestion tools
 		SztakipediaTB.initLink();		
 		SztakipediaTB.initCategory();		
 		SztakipediaTB.initInfobox();
@@ -778,7 +750,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		}
 	};
 
-	// Load local data - messages, cite templates, etc.
+	/**
+	 * Load local data - messages, cite templates, etc.
+	 */
 	$j(document).ready(function() {
 
 		// TODO support more languages
@@ -795,6 +769,11 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		}
 	});
 
+  /**
+   * Return a localized string for the key if present, or the key itself surrounded by braces if a localized string is missing.
+   * @param {string} msgid The message key, e.g. 'sztakipedia-accept'.
+   * @return {string} The localized string, or the encapsulated key.
+   */
 	SztakipediaTB.getMsgPlaceholder = function(msgid) {
 		var msg = mw.usability.getMsg(msgid);
 		if (typeof msg === 'undefined' || msg == null)
@@ -803,13 +782,16 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		return msg;
 	};
 
-	// Setup the main object
-	SztakipediaTB.mainRefList = [];
-	SztakipediaTB.refsLoaded = false;
-
 	// REF FUNCTIONS
-	// Actually assemble a ref from user input
+	/**
+	 * Actually assemble a ref from user input
+	 * @param {boolean} inneronly Omit &lt;ref&gt; tags.
+	 * @param {boolean} forinsert
+	 * @private
+	 */
 	SztakipediaTB.getRef = function(inneronly, forinsert) {
+		
+		// TODO on forinsert == true, cross-call CiteTB
 		var template = SztakipediaTB.getOpenTemplate();
 		var templatename = template.templatename;
 		
@@ -827,12 +809,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			res += '<ref';
 			if (refname) {
 				refname = $j.trim(refname);
-				res += ' name=' + SztakipediaTB.getQuotedString(refname);
+				res += ' name="' + SztakipediaTB.getQuotedString(refname) +'"';
 				refobj.refname = refname;
 			}
 			if (group) {
 				group = $j.trim(group);
-				res += ' group=' + SztakipediaTB.getQuotedString(group);
+				res += ' group="' + SztakipediaTB.getQuotedString(group) + '"';
 				refobj.refgroup = group;
 			}
 			res += '>';
@@ -862,86 +844,17 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		if (!inneronly) {
 			res += '</ref>';
 		}
-		if (forinsert) {
-			SztakipediaTB.mainRefList.push(refobj);
-		}
 		//alert('getRef: ' + res);
 		return res;
 	};
 
-	// Make a reference to a named ref
-	SztakipediaTB.getNamedRef = function(refname, forinsert) {
-		var inner = 'name=';
-		if (forinsert) {
-			SztakipediaTB.mainRefList.push( {
-				'shorttag' : true,
-				'refname' : refname
-			});
-		}
-		return '<ref name=' + SztakipediaTB.getQuotedString(refname) + ' />';
-	};
 
-	// Function to load the ref list
-	SztakipediaTB.loadRefs = function() {
-		if (SztakipediaTB.refsLoaded) {
-			return;
-		}
-		SztakipediaTB.getPageText(SztakipediaTB.loadRefsInternal);
-	};
-
-	// Function that actually loads the list from the page text
-	SztakipediaTB.loadRefsInternal = function(text) {
-		// What this does: extract first name/group extract second name/group
-		// shorttag inner content
-		var refsregex = /< *ref(?: +(name|group) *= *(?:"([^"]*?)"|'([^']*?)'|([^ '"\/\>]*?)) *)? *(?: +(name|group) *= *(?:"([^"]*?)"|'([^']*?)'|([^ '"\/\>]*?)) *)? *(?:\/ *>|>((?:.|\n)*?)< *\/ *ref *>)/gim;
-		// This should work regardless of the quoting used for names/groups and
-		// for linebreaks in the inner content
-		while (true) {
-			var ref = refsregex.exec(text);
-			if (ref == null) {
-				break;
-			}
-			var refobj = {};
-			if (ref[9]) { // Content + short tag check
-				// alert('"'+ref[9]+'"');
-				refobj['content'] = ref[9];
-				refobj['shorttag'] = false;
-			}
-			else {
-				refobj['shorttag'] = true;
-			}
-			if (ref[1] != '') { // First name/group
-				if (ref[2]) {
-					refobj['ref' + ref[1]] = ref[2];
-				}
-				else if (ref[3]) {
-					refobj['ref' + ref[1]] = ref[3];
-				}
-				else {
-					refobj['ref' + ref[1]] = ref[4];
-				}
-			}
-			if (ref[5] != '') { // Second name/group
-				if (ref[6]) {
-					refobj['ref' + ref[5]] = ref[6];
-				}
-				else if (ref[7]) {
-					refobj['ref' + ref[5]] = ref[7];
-				}
-				else {
-					refobj['ref' + ref[5]] = ref[8];
-				}
-			}
-			SztakipediaTB.mainRefList.push(refobj);
-		}
-		SztakipediaTB.refsLoaded = true;
-		SztakipediaTB.setupErrorCheck();
-		SztakipediaTB.setupNamedRefs();
-	};
-
-	// Function to load the book suggestion list
+	/**
+	 * Retrieve book suggestions. Also adds a book search form to the dialog window.
+	 * @private
+	 */
 	SztakipediaTB.loadBookSuggestions = function() {
-		// add form if not already there
+		// add search form if not already there
 		$j('#sztakipediatoolbar-dialog-bookprediction-form:empty')
 			.addClass('sztakipedia-search-form')
 			.append($j('<span/>')
@@ -964,57 +877,46 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			.after($j('<span/>')
 					.text(SztakipediaTB.getMsgPlaceholder('sztakipedia-bookprediction-suggestions-title'))
 					.addClass('sztakipedia-dialog-block-title'));
-//		if (SztakipediaTB.bookSuggestionsLoaded) {
-//			return;
-//		}
-//		//SztakipediaTB.loadBookSuggestionsInternal();
-//		setTimeout("SztakipediaTB.loadBookSuggestionsInternal()", 1000); // FIXME remove simulated delay
+
 		SztakipediaTB.updateRemoteContent(function() {
 			SztakipediaClient.buildDialogs(SztakipediaTB.setupBookSuggestions, SztakipediaTB.token, 'bookprediction');
 		});
 	};
 
-//	// Function that actually loads books suggestions
-//	SztakipediaTB.loadBookSuggestionsInternal = function() {
-//		//alert('SztakipediaTB.loadBookSuggestionsInternal ');
-//		SztakipediaTB.Suggestions['book'] = {
-//			'suggestion0001' : {
-//				"last" : "Verne",
-//				"first" : "Jules",
-//				"title" : "Around the World in Eighty Days"
-//			},
-//			'suggestion0002' : {
-//				"last" : "Stroustrup",
-//				"first" : "Bjarne",
-//				"title" : "Programming -- Principles and Practice Using C++",
-//				"isbn" : "978-0321543721",
-//				"date" : "December 2008",
-//				"publisher" : "Addison-Wesley"
-//			}
-//
-//		}; // FIXME 
-//		SztakipediaTB.bookSuggestionsLoaded = true;
-//		SztakipediaTB.setupBookSuggestions();
-//	};
-
+	/**
+	 * Retrieve internal link suggestions.
+	 * @private
+	 */
 	SztakipediaTB.loadLinkSuggestions = function() {
 		SztakipediaTB.updateRemoteContent(function() {
 			SztakipediaClient.buildDialogs(SztakipediaTB.setupLinkSuggestions, SztakipediaTB.token, 'pagelinks');
 		});
 	};
 	
+	/**
+	 * Retrieve category suggestions.
+	 * @private
+	 */
 	SztakipediaTB.loadCategorySuggestions = function() {
 		SztakipediaTB.updateRemoteContent(function() {
 			SztakipediaClient.buildDialogs(SztakipediaTB.setupCategorySuggestions, SztakipediaTB.token, 'categoryprediction');
 		});
 	};
 	
+	/**
+	 * Retrieve infobox suggestions.
+	 * @private
+	 */
 	SztakipediaTB.loadInfoboxSuggestions = function() {
 		SztakipediaTB.updateRemoteContent(function() {
 			SztakipediaClient.buildDialogs(SztakipediaTB.setupInfoboxSuggestions, SztakipediaTB.token, 'infoboxprediction');
 		});
 	};
 	
+	/**
+	 * Search for books based on the search form.
+	 * @private
+	 */
 	SztakipediaTB.handleBookFormSubmit = function() {
 		var template = SztakipediaTB.getOpenTemplate();
 		var res = '';
@@ -1049,6 +951,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	
 	/**
 	 * Parse some wikitext and hand it off to a callback function.
+	 * @param {string} text The wikitext fragment to be parsed.
+	 * @param {function(string)} callback The function to be called with the resulting HTML.
+	 * @requires MediaWiki-API
 	 */
 	SztakipediaTB.parse = function(text, callback) {
 		//alert("wikitext: " + text);
@@ -1066,6 +971,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 
 	/**
 	 * Use the API to expand templates on some text
+	 * @param {string} text The wikitext fragment to be expanded.
+	 * @param {function(string)} callback The function to be called with the resulting HTML.
+	 * @requires MediaWiki-API
+	 * @private
 	 */
 	SztakipediaTB.expandtemplates = function(text, callback) {
 		$j.post(wgServer + wgScriptPath + '/api.php', {
@@ -1081,6 +990,8 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 
 	/**
 	 * Function to get the page text
+	 * @param {function(string)} callback The function to be called with the resulting HTML.
+	 * @requires MediaWiki-API
 	 */
 	SztakipediaTB.getPageText = function(callback) {
 		var section = $j("input[name='wpSection']").val();
@@ -1110,7 +1021,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		}
 	};
 
-	// Autofill a template from an ID (ISBN, DOI, PMID)
+	/**
+	 *  Autofill a template from an ID (ISBN, DOI, PMID)
+	 */
 	SztakipediaTB.initAutofill = function() {
 		var elemid = $j(this).attr('id');
 		var res = /^sztakipedia\-auto\-(.*?)\-(.*)\-(.*)$/.exec(elemid);
@@ -1129,70 +1042,6 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		s.setAttribute('type', 'text/javascript');
 		document.getElementsByTagName('head')[0].appendChild(s);
 		return false;
-	};
-
-	// Callback for autofill
-	// TODO: Autofill the URL, at least for DOI
-	SztakipediaTB.autoFill = function(data, template, type) {
-		var cl = 'sztakipedia-' + template + '-';
-		$j('.' + cl + 'title').val(data.title);
-		if ($j('.' + cl + 'last1')) {
-			for ( var i = 0; i < data.authors.length; i++) {
-				if ($j('.' + cl + 'last' + (i + 1)).length) {
-					$j('.' + cl + 'last' + (i + 1)).val(data.authors[i][0]);
-					$j('.' + cl + 'first' + (i + 1)).val(data.authors[i][1]);
-				}
-				else {
-					var coauthors = [];
-					for ( var j = i; j < data.authors.length; j++) {
-						coauthors.push(data.authors[j].join(', '));
-					}
-					$j('.' + cl + 'coauthors').val(coauthors.join(', '));
-					break;
-				}
-			}
-		}
-		else if ($j('.' + cl + 'author1')) {
-			for ( var i = 0; i < data.authors.length; i++) {
-				if ($j('.' + cl + 'author' + (i + 1)).length) {
-					$j('.' + cl + 'author' + (i + 1)).val(data.authors[i].join(', '));
-				}
-				else {
-					var coauthors = [];
-					for ( var j = i; j < data.authors.length; j++) {
-						coauthors.push(data.authors[j].join(', '));
-					}
-					$j('.' + cl + 'coauthors').val(coauthors.join(', '));
-					break;
-				}
-			}
-		}
-		else {
-			var authors = [];
-			for ( var i = 0; j < data.authors.length; j++) {
-				authors.push(data.authors[j].join(', '));
-			}
-			$j('.' + cl + 'authors').val(authors.join(', '));
-		}
-		if (type == 'pmid' || type == 'doi') {
-			if (type == 'doi') {
-				var DT = new Date(data.date);
-				$j('.' + cl + 'date').val(SztakipediaTB.formatDate(DT));
-			}
-			else {
-				$j('.' + cl + 'date').val(data.date);
-			}
-			$j('.' + cl + 'journal').val(data.journal);
-			$j('.' + cl + 'volume').val(data.volume);
-			$j('.' + cl + 'issue').val(data.issue);
-			$j('.' + cl + 'pages').val(data.pages);
-		}
-		else if (type == 'isbn') {
-			$j('.' + cl + 'publisher').val(data.publisher);
-			$j('.' + cl + 'location').val(data.location);
-			$j('.' + cl + 'year').val(data.year);
-			$j('.' + cl + 'edition').val(data.edition);
-		}
 	};
 
 	// FORM DIALOG FUNCTIONS
@@ -1237,112 +1086,21 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		return datestr;
 	};
 
-	// Function called after the ref list is loaded, to actually set the
-	// contents of the named ref dialog
-	// Until the list is loaded, its just a "Loading" placeholder
-	SztakipediaTB.setupNamedRefs = function() {
-		var names = [];
-		for ( var i = 0; i < SztakipediaTB.mainRefList.length; i++) {
-			if (!SztakipediaTB.mainRefList[i].shorttag && SztakipediaTB.mainRefList[i].refname) {
-				names.push(SztakipediaTB.mainRefList[i]);
-			}
-		}
-		var stuff = $j('<div />');
-		$j('#sztakipedia-namedrefs').html(stuff);
-		if (names.length == 0) {
-			stuff.html(mw.usability.getMsg('sztakipedia-no-namedrefs'));
-		}
-		else {
-			stuff.html(mw.usability.getMsg('sztakipedia-namedrefs-intro'));
-			var select = $j('<select id="sztakipedia-namedref-select">');
-			select.append($j('<option value="" />').text(mw.usability.getMsg('sztakipedia-named-refs-dropdown')));
-			for ( var i = 0; i < names.length; i++) {
-				select.append($j('<option />').text(names[i].refname));
-			}
-			stuff.after(select);
-			select.before('<br />');
-			var prevlabel = $j('<div id="sztakipedia-nref-preview-label" style="display:none;" />').html(mw.usability.getMsg('sztakipedia-raw-preview'));
-			select.after(prevlabel);
-			prevlabel.before("<br /><br />");
-			prevlabel.after('<div id="sztakipedia-namedref-preview" style="padding:0.5em; font-size:110%" />');
-			var parselabel = $j('<span id="sztakipedia-parsed-label" style="display:none;" />').html(mw.usability.getMsg('sztakipedia-parsed-label'));
-			$j('#sztakipedia-namedref-preview').after(parselabel);
-			parselabel.after('<div id="sztakipedia-namedref-parsed" style="padding-bottom:0.5em; font-size:110%" />');
-			var link = $j('<a href="#" id="sztakipedia-nref-parse" style="margin:0 1em 0 1em; display:none; color:darkblue" />');
-			link.html(mw.usability.getMsg('sztakipedia-form-parse'));
-			$j('#sztakipedia-namedref-parsed').after(link);
-
-			$j("#sztakipedia-namedref-select").bind('change', SztakipediaTB.namedRefSelectClick);
-			$j('#sztakipedia-nref-parse').bind('click', SztakipediaTB.nrefParseClick);
-		}
-	};
-
-	// Function to get the errorcheck form HTML
-	SztakipediaTB.setupErrorCheck = function() {
-		var form = $j('<div id="sztakipedia-errorcheck-heading" />').html(mw.usability.getMsg('sztakipedia-errorcheck-heading'));
-		var ul = $j("<ul id='sztakipedia-errcheck-list' />");
-		for ( var t in SztakipediaTB.ErrorChecks) {
-			var test = SztakipediaTB.ErrorChecks[t];
-			ul.append(test.getRow());
-		}
-		form.append(ul);
-		$j('#sztakipedia-errorcheck').html(form);
-	};
-
-	// Callback function for parsed preview
+	/**
+	 * Callback function for parsed preview
+	 * @param {string} parsed The HTML string.
+	 */
 	SztakipediaTB.fillNrefPreview = function(parsed) {
 		$j('#sztakipedia-parsed-label').show();
 		$j('#sztakipedia-namedref-parsed').html(parsed);
 	};
 
-	// Click handler for the named-ref parsed preview
-	SztakipediaTB.nrefParseClick = function() {
-		var choice = $j("#sztakipedia-namedref-select").val();
-		if (choice == '') {
-			$j('#sztakipedia-parsed-label').hide();
-			$j('#sztakipedia-namedref-parsed').text('');
-			return false;
-		}
-		$j('#sztakipedia-nref-parse').hide();
-		for ( var i = 0; i < SztakipediaTB.mainRefList.length; i++) {
-			if (!SztakipediaTB.mainRefList[i].shorttag && SztakipediaTB.mainRefList[i].refname == choice) {
-				SztakipediaTB.parse(SztakipediaTB.mainRefList[i].content, SztakipediaTB.fillNrefPreview);
-				return false;
-			}
-		}
-	};
-
-	// Click handler for the named-ref dropdown
-	SztakipediaTB.lastnamedrefchoice = '';
-	SztakipediaTB.namedRefSelectClick = function() {
-		var choice = $j("#sztakipedia-namedref-select").val();
-		if (SztakipediaTB.lastnamedrefchoice == choice) {
-			return;
-		}
-		SztakipediaTB.lastnamedrefchoice = choice;
-		$j('#sztakipedia-parsed-label').hide();
-		$j('#sztakipedia-namedref-parsed').text('');
-		if (choice == '') {
-			$j('#sztakipedia-nref-preview-label').hide();
-			$j('#sztakipedia-namedref-preview').text('');
-			$j('#sztakipedia-nref-parse').hide();
-			return;
-		}
-		for ( var i = 0; i < SztakipediaTB.mainRefList.length; i++) {
-			if (!SztakipediaTB.mainRefList[i].shorttag && SztakipediaTB.mainRefList[i].refname == choice) {
-				$j('#sztakipedia-nref-preview-label').show();
-				$j('#sztakipedia-namedref-preview').text(SztakipediaTB.mainRefList[i].content);
-				if (SztakipediaTB.getOption('autoparse')) {
-					SztakipediaTB.nrefParseClick();
-				}
-				else {
-					$j('#sztakipedia-nref-parse').show();
-				}
-			}
-		}
-	};
-
-	// callback function for parsed preview
+	
+	/**
+	 * Callback function for parsed preview.
+	 * @param {string} text The HTML fragment.
+	 * 
+	 */
 	SztakipediaTB.fillTemplatePreview = function(text) {
 		var template = SztakipediaTB.getOpenTemplate();
 		var div = $j("#sztakipediatoolbar-" + SztakipediaTB.escStr(template.shortform));
@@ -1353,7 +1111,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.scrollTo(scrollTo, container, 'fast');		
 	};
 
-	// Click handler for template parsed preview
+	/**
+	 *  Click handler for template parsed preview
+	 */
 	SztakipediaTB.prevParseClick = function() {
 		var template = SztakipediaTB.getOpenTemplate();
 		var ref = SztakipediaTB.getRef(true, false);
@@ -1362,7 +1122,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.parse(ref, SztakipediaTB.fillTemplatePreview);
 	};
 
-	// Show/hide the extra fields in the dialog box
+	/**
+	 * Show/hide the extra fields in the dialog box
+	 */
 	SztakipediaTB.showHideExtra = function() {
 		var template = SztakipediaTB.getOpenTemplate();
 		var div = $j("#sztakipediatoolbar-" + SztakipediaTB.escStr(template.shortform));
@@ -1385,6 +1147,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	
 	/**
 	 * Select given character range in the text field.
+	 * @param {number} start The first character position (inclusive).
+	 * @param {number} end The last character position (exclusive).
+	 * @param {Object} [field] The textarea to select text in.
 	 */
 	SztakipediaTB.selectRange = function(start, end, field) {
 		//alert('Select [' + start +'-' + end + ']');
@@ -1414,7 +1179,8 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	};
 
 	/**
-	 *  Resets form fields and previews
+	 * Resets form fields and previews.
+	 * @private
 	 */
 	SztakipediaTB.resetForm = function() {
 		var template = SztakipediaTB.getOpenTemplate();
@@ -1428,80 +1194,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		$j('#sztakipedia-' + id + ' input[type=text]').val('');
 	};
 
-//	/**
-//	 * Function called after the book suggestion list is loaded, to actually set the
-//	 * contents of the book suggestion dialog.
-//	 * 
-//	 * Until the list is loaded, its just a "Loading" placeholder
-//	 */
-//	SztakipediaTB.setupBookSuggestions = function() {
-//		var stuff = $j('<div />');
-//		$j('#sztakipediatoolbar-dialog-book').html(stuff);
-//		if (SztakipediaTB.Suggestions['book'].length == 0) {
-//			stuff.html(mw.usability.getMsg('sztakipedia-no-book-suggestions')); // FIXME add to messages.js
-//		}
-//		else {
-//			stuff.text(mw.usability.getMsg('sztakipedia-book-suggestions-intro')); // FIXME add to messages.js
-//			var list = $j('<ol id="sztakipedia-book-suggestions-list">');
-//			for ( var suggestionId in SztakipediaTB.Suggestions['book']) {
-//				//alert(suggestionId);
-//				var suggestion = SztakipediaTB.Suggestions['book'][suggestionId];
-//				var item = $j('<li/>')
-//					.attr('id', 'sztakipedia-book-suggestion-' + suggestionId)
-//					.addClass('sztakipedia-book-suggestion-container');
-//				item.append($j('<span/>').text(suggestion['title']));
-//
-//				var acceptlink = $j('<a href="#" />');
-//				acceptlink.attr('id', 'sztakipedia-book-suggestion-' + suggestionId + '-accept');
-//				acceptlink.attr('title', mw.usability.getMsg('sztakipedia-accept'));
-//				acceptlink.append($j(
-//						'<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Gnome-emblem-default.svg/22px-Gnome-emblem-default.svg.png" />')
-//						.attr('alt', mw.usability.getMsg('sztakipedia-accept')));
-//				item.append(acceptlink);
-//
-//				var rejectlink = $j('<a href="#" />');
-//				rejectlink.attr('id', 'sztakipedia-book-suggestion-' + suggestionId + '-reject');
-//				rejectlink.attr('title', mw.usability.getMsg('sztakipedia-reject'));
-//				rejectlink.append($j('<img/>')
-//						.attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Gnome-process-stop.svg/22px-Gnome-process-stop.svg.png')
-//						.attr('alt', mw.usability.getMsg('sztakipedia-reject')));				
-//				item.append(rejectlink);
-//				
-//				list.append(item);
-//			}
-//			stuff.after(list);
-//
-//			for ( var suggestionId in SztakipediaTB.Suggestions['book']) {
-//				$j('#sztakipedia-book-suggestion-' + suggestionId + '-accept').bind('click', function() {
-//					$j('#sztakipediatoolbar-dialog-book').dialog('close');
-//					//alert('Accept "' + suggestionId + '"');
-//						$j('#sztakipediatoolbar-book').dialog('open');
-//						SztakipediaTB.setTemplateDialogFields('book', SztakipediaTB.Suggestions['book'][suggestionId]);
-//					});
-//				$j('#sztakipedia-book-suggestion-' + suggestionId + '-reject').bind('click', function() {
-//					alert('Reject "' + suggestionId + '"');
-//				});
-//			}
-//
-//			//			list.before('<br />');
-//			//			var prevlabel = $j('<div id="sztakipedia-nref-preview-label" style="display:none;" />').html(mw.usability.getMsg('sztakipedia-raw-preview'));
-//			//			list.after(prevlabel);
-//			//			prevlabel.before("<br /><br />");
-//			//			prevlabel.after('<div id="sztakipedia-namedref-preview" style="padding:0.5em; font-size:110%" />');
-//			//			var parselabel = $j('<span id="sztakipedia-parsed-label" style="display:none;" />').html(mw.usability.getMsg('sztakipedia-parsed-label'));
-//			//			$j('#sztakipedia-namedref-preview').after(parselabel);
-//			//			parselabel.after('<div id="sztakipedia-namedref-parsed" style="padding-bottom:0.5em; font-size:110%" />');
-//			//			var link = $j('<a href="#" id="sztakipedia-nref-parse" style="margin:0 1em 0 1em; display:none; color:darkblue" />');
-//			//			link.html(mw.usability.getMsg('sztakipedia-form-parse'));
-//			//			$j('#sztakipedia-namedref-parsed').after(link);
-//			//
-//			//			$j("#sztakipedia-namedref-select").bind('change', SztakipediaTB.namedRefSelectClick);
-//			//			$j('#sztakipedia-nref-parse').bind('click', SztakipediaTB.nrefParseClick);
-//		}
-//	};
-
 	/**
 	 * Produce HTML for the link suggestions dialog.
+	 * @param {Object} dialogs
 	 */
 	SztakipediaTB.setupLinkSuggestions = function(dialogs) {
 		
@@ -1536,6 +1231,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	
 	/**
 	 * Produce HTML for the category suggestions dialog.
+	 * @param {Object} dialogs
 	 */
 	SztakipediaTB.setupCategorySuggestions = function(dialogs) {
 		SztakipediaTB.setupDialogs(dialogs, 'category', 'sztakipediatoolbar-dialog-category');
@@ -1543,6 +1239,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	
 	/**
 	 * Produce HTML for the infobox suggestions dialog.
+	 * @param {Object} dialogs
 	 */
 	SztakipediaTB.setupInfoboxSuggestions = function(dialogs) {
 		for ( var dialogId in dialogs) {
@@ -1558,7 +1255,10 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.setupDialogs(dialogs, 'infobox', 'sztakipediatoolbar-dialog-infobox-content');
 	};
 	
-		
+	/**
+	 * Produce HTML for the book suggestions dialog.
+	 * @param {Object} dialogs
+	 */		
 	SztakipediaTB.setupBookSuggestions = function(dialogs) {
 		$j('#sztakipediatoolbar-dialog-bookprediction-content').attr('style', 'opacity:1;');		
 		for ( var dialogId in dialogs) {
@@ -1584,11 +1284,11 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	};
 	
 	/**
-	 * Create HTML corresponding to a set of dialogs
+	 * Create HTML corresponding to a set of generic dialogs.
 	 * 
-	 * @param dialogs
-	 * @param sname
-	 * @param elem the DOM element's id to place the HTML in, and to register event listeners for
+	 * @param {Object} dialogs The list of dialogs.
+	 * @param {string} sname The template's short name.
+	 * @param {string} elementId The DOM element's id attribute to place the HTML in, and to register event listeners for.
 	 */ 
 	SztakipediaTB.setupDialogs = function(dialogs, sname, elementId) {
 		var stuff = $j('<div />');
@@ -1810,7 +1510,6 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	/** 
 	 * Function called to load client info
 	 * Until the contents are loaded, its just a "Loading" placeholder for each section
-	 * 
 	 */
 	SztakipediaTB.setupInfo = function() {
 
@@ -1833,26 +1532,23 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			var stuff = $j('<div />');
 			stuff.text(SztakipediaTB.getMsgPlaceholder('sztakipedia-info-session-intro'));
 			var list = $j('<ul/>').attr('id', 'sztakipedia-info-session-list');
+			var item;
 			// session id
-			{
-				var item = $j('<li/>');
-				item.append($j('<span/>').addClass('sztakipedia-info-id').text('Session ID')); // FIXME add to messages.js
-				item.append(sep);
-				item.append($j('<span/>').text(SztakipediaClient.sessionid));
-				list.append(item);
-			}
-			// token
-			{
-				var item = $j('<li/>');
-				item.append($j('<span/>').addClass('sztakipedia-info-id').text('Token')); // FIXME add to messages.js
-				item.append(sep);
-				item.append($j('<span/>').text(SztakipediaTB.token));
-				list.append(item);
-			}
+			item = $j('<li/>')
+				.append($j('<span/>').addClass('sztakipedia-info-id').text('Session ID')) // FIXME add to messages.js
+				.append(sep)
+				.append($j('<span/>').text(SztakipediaClient.sessionid));
+			list.append(item);
 
+			// token
+			item = $j('<li/>')
+				.append($j('<span/>').addClass('sztakipedia-info-id').text('Token')) // FIXME add to messages.js
+				.append(sep)
+				.append($j('<span/>').text(SztakipediaTB.token));
+			list.append(item);
+		
 			stuff.append(list);
 			$j('#sztakipedia-dialog-info-session').html(stuff);
-
 		}
 
 		// async load block content
@@ -1897,6 +1593,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 
 	/**
 	 * Send the text field contents to the API for analysis.
+	 * @param {function()} callback The function to be called on completion.
 	 */
 	SztakipediaTB.updateRemoteContent = function(callback) {
 		// make sure user is logged in
@@ -1927,7 +1624,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 							//}, SztakipediaTB.token, 'pagelinks');
 //						}, SztakipediaTB.token, 'internallinks');
 //					}, SztakipediaTB.token, 'tokenizer');
-				}, SztakipediaTB.token, SztakipediaTB.getTarget().val());
+				}, SztakipediaTB.token, SztakipediaTB.getTarget().val() + '');
 	};
 
 	// ========================
@@ -2005,10 +1702,15 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.getTarget().change(); // to make sure a 'change' event is triggered (for Opera)
 	};
 
-	// Search the target text field for a text range matched by the insertion strategies.
+	/**
+	 * Search the target text field for a text range matched by the insertion strategies.
+	 * @param {Object} insertionstrategies
+	 * @param {string} [text] the string to search, defaults to the textarea contents
+	 * @return Array A two-element array containing the start and end character positions.
+	 */
 	SztakipediaTB.searchByInsertionStragtegy = function(insertionstrategies, text) {
 		if (typeof text == 'undefined')
-			text = SztakipediaTB.getTarget().val();
+			text = SztakipediaTB.getTarget().val() + '';
 		var start = -1;
 		var end = -1;
 		if ('contextsensitive' in insertionstrategies)
@@ -2028,47 +1730,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		return [start, end];
 	};
 
-	// Display the report for the error checks
-	SztakipediaTB.displayErrors = function(errors) {
-		$j('#sztakipedia-err-report').remove();
-		var table = $j('<table id="sztakipedia-err-report" style="width:100%; border:1px solid #A9A9A9; background-color:#FFEFD5; padding:0.25em; margin-top:0.5em" />');
-		$j('#editpage-copywarn').before(table);
-		var tr1 = $j('<tr style="width:100%" />');
-		var th1 = $j('<th style="width:60%; font-size:110%" />').html(mw.usability.getMsg('sztakipedia-err-report-heading'));
-		var th2 = $j('<th style="text-align:right; width:40%" />');
-		var im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Gtk-stop.svg/20px-Gtk-stop.svg.png');
-		im.attr('alt', mw.usability.getMsg('sztakipedia-err-report-close')).attr('title', mw.usability.getMsg('sztakipedia-err-report-close'));
-		var ad = $j('<a id="sztakipedia-err-check-close" />').attr('href', '#');
-		ad.append(im);
-		th2.append(ad);
-		tr1.append(th1).append(th2);
-		table.append(tr1);
-		$j('#sztakipedia-err-check-close').bind('click', function() {
-			$j('#sztakipedia-err-report').remove();
-		});
-		if (errors.length == 0) {
-			var tr = $j('<tr style="width:100%;" />');
-			var td = $j('<td style="text-align:center; margin:1.5px;" />').html(mw.usability.getMsg('sztakipedia-err-report-empty'));
-			tr.append(td);
-			table.append(tr);
-
-			return;
-		}
-		for ( var e in errors) {
-			var err = errors[e];
-			var tr = $j('<tr style="width:100%;" />');
-			var td1 = $j('<td style="border: 1px solid black; margin:1.5px; width:60%" />').html(err.err);
-			var td2 = $j('<td style="border: 1px solid black; margin:1.5px; width:40%" />').html(mw.usability.getMsg(err.msg));
-			tr.append(td1).append(td2);
-			table.append(tr);
-		}
-	};
 
 	/**
-	 * Create a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element
-	 * 
-	 * TODO move as much as possible to SztakipediaClient
+	 * Creates a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element.
+	 * @return {Object} The resulting {@link sztakipediTemplate} object.
 	 */
+	// TODO move as much as possible to SztakipediaClient
 	SztakipediaTB.addTemplateFromXhtml = function(template) {
 
 		var title = template.find('.wiki-template-title').text();
@@ -2099,11 +1766,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	
 	/**
 	 * Parse template title and parameters from a Sztakipedia XHTML DOM element into an object.
-	 * 
-	 * TODO move to SztakipediaClient 
+	 * @param  {jQuery} template The DOM element corresponding to the template.  
+	 * @return Object
 	 */
+	 // TODO move to SztakipediaClient 
 	SztakipediaTB.parseTemplateFromXhtml = function(template) {
-
+		
 		//alert(typeof template + template);
 		
 		var res = {
@@ -2136,43 +1804,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		}
 	};
 
-//	SztakipediaTB.getTemplate = function(title) {
-//		var url = 'http://pediadev.sztaki.hu:9090/infobox-fillhelper/?format=xhtml2json&name=' + encodeURIComponent(title);
-//
-//		// jQuery
-//		$.ajax({
-//			'url' : url,
-//			'dataType' : 'jsonp',
-//			'jsonp' : 'callback',
-//			'success' : function(data) {
-//				// $('.result').html(data);
-//				xml = $j(JsonML.parse(data));
-//
-//				//alert('Load was performed: ' + xml.find('.wiki-template-title').text());
-//				var template = xml.first('.wiki-template');
-//				SztakipediaTB.addTemplateFromXhtml(template);
-//			}
-//		});
-//		// XHR
-//		// a = sajax_init_object();
-//		// a.open('GET', url, true);
-//		// a.onreadystatechange = function()
-//		// {
-//		// if(a.readyState != 4)
-//		// return;
-//		// alert("[" + a.status + ":" + a.statusText + "]\n" + a.responseText);
-//		// SztakipediaTB.TemplateSkeletons[title] = a.responseText;
-//		// };
-//		// a.send();
-//	};
-	// TODO hack
-
-	//SztakipediaTB.getTemplate('Infobox monarch');
 	/**
 	 * Scroll to specific item.
 	 * 
-	 * @param scrollTo: the element to view
-	 * @param container: the ancestor element having a scrollbar
+	 * @param {jQuery} scrollTo The element to show.
+	 * @param {jQuery} container The ancestor element having a scrollbar.
+	 * @param {string} [speed] Animation speed 'fast' or 'slow'. Omit for no animation.
 	 * @see http://stackoverflow.com/questions/2905867/how-to-scroll-to-specific-item-using-jquery
 	 */
 	SztakipediaTB.scrollTo = function(scrollTo, container, speed) {

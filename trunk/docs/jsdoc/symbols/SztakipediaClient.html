@@ -212,6 +212,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/SztakipediaTB.html">SztakipediaTB</a></li>
 	
+	<li><a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a></li>
+	
 </ul>
 <hr />
 			<!-- end publish.classesIndex -->
@@ -229,7 +231,7 @@ ul.inheritsList
 				
 				
 			
-				
+				Offers convenient interface to the Sztakipedia REST API services.
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/src_SztakipediaClient.js.html">SztakipediaClient.js</a>.
@@ -308,6 +310,33 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.answerDialog">answerDialog</a></b>(callback, token, builder, dialogId, suggestionId)
+								</div>
+								<div class="description">Signal that the user accepted a suggestion towards the remote REST API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.buildDialogs">buildDialogs</a></b>(callback, token, dialogbuilder, builderparams)
+								</div>
+								<div class="description">Request suggestions from the given dialog builders through remote REST API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.buildList">buildList</a></b>(callback, token, processor)
+								</div>
+								<div class="description">Request entities from the given text processor through remote REST API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.doGet">doGet</a></b>(params, callback)
 								</div>
 								<div class="description">Perform a GET request to the API endpoint (possibly via a JSONP proxy).</div>
@@ -353,7 +382,79 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseXML">parseXML</a></b>(data, xml, tmp)
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.init">init</a></b>()
+								</div>
+								<div class="description">Perform one-time initialization.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.newSession">newSession</a></b>(callback)
+								</div>
+								<div class="description">Start new session.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.newToken">newToken</a></b>(callback)
+								</div>
+								<div class="description">Request a new token for submitting a wikitext fragment.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseDialog">parseDialog</a></b>(xml)
+								</div>
+								<div class="description">Retrieve the list of dialogs from the response DOM element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseDialogBuilders">parseDialogBuilders</a></b>(xml)
+								</div>
+								<div class="description">Retrieve the list of available dialog builders from the response DOM element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseProcessors">parseProcessors</a></b>(xml)
+								</div>
+								<div class="description">Retrieve the list of available processors from the response DOM element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseSessionId">parseSessionId</a></b>(xml)
+								</div>
+								<div class="description">Retrieve the session ID from the response DOM element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseToken">parseToken</a></b>(xml)
+								</div>
+								<div class="description">Retrieve the token from the response DOM element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.parseXML">parseXML</a></b>(data)
 								</div>
 								<div class="description">Uses the native parsing function of the browser to create a valid XML Document.</div>
 							</td>
@@ -362,9 +463,36 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.queryDialogBuilders">queryDialogBuilders</a></b>(callback)
+								</div>
+								<div class="description">Retrieve available dialog builders through remote REST API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.queryProcessors">queryProcessors</a></b>(callback)
+								</div>
+								<div class="description">Retrieve available processors through remote REST API.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.queryUrl">queryUrl</a></b>(params)
 								</div>
 								<div class="description">Assemble a query URL from a set of parameters.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.update">update</a></b>(callback, token, content, inputformat)
+								</div>
+								<div class="description">Replace remotely stored wikitext associated with the given token.</div>
 							</td>
 						</tr>
 					
@@ -411,6 +539,13 @@ ul.inheritsList
 					
 					
 					
+						<dl class="detailList">
+						<dt class="heading">Requires:</dt>
+						
+							<dd>jQuery</dd>
+						
+						</dl>
+					
 					
 
 			</div>
@@ -425,7 +560,7 @@ ul.inheritsList
 					<a name=".DefaultOptions"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{Object}</span>
 					<span class="light">SztakipediaClient.</span><b>DefaultOptions</b>
 					
 					</div>
@@ -452,8 +587,177 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name=".doGet"> </a>
+					<a name=".answerDialog"> </a>
 					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>answerDialog</b>(callback, token, builder, dialogId, suggestionId)
+					
+					</div>
+					<div class="description">
+						Signal that the user accepted a suggestion towards the remote REST API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with nothing.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>token</b>
+									
+								</dt>
+								<dd>The token of the wikitext to be processed.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>builder</b>
+									
+								</dt>
+								<dd>The unique name of the builder.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>dialogId</b>
+									
+								</dt>
+								<dd>The identifier of the dialog.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>suggestionId</b>
+									
+								</dt>
+								<dd>The identifier of the suggestion being accepted.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".buildDialogs"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>buildDialogs</b>(callback, token, dialogbuilder, builderparams)
+					
+					</div>
+					<div class="description">
+						Request suggestions from the given dialog builders through remote REST API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(Object)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting array of dialogs.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>token</b>
+									
+								</dt>
+								<dd>The token of the wikitext to be processed.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>dialogbuilder</b>
+									
+								</dt>
+								<dd>The unique name of the dialog builder.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>builderparams</b>
+									<i>Optional</i>
+								</dt>
+								<dd>The unique name of the dialog builder.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".buildList"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>buildList</b>(callback, token, processor)
+					
+					</div>
+					<div class="description">
+						Request entities from the given text processor through remote REST API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(Object)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting array of entities.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>token</b>
+									
+								</dt>
+								<dd>The token of the wikitext to be processed.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>processor</b>
+									
+								</dt>
+								<dd>The unique name of the processor.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Response processing not implemented.
+							</dt>
+							</dl>
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".doGet"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
 					<span class="light">SztakipediaClient.</span><b>doGet</b>(params, callback)
@@ -472,16 +776,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>params</b>
+									<span class="light fixedFont">{Object}</span> <b>params</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The HTTP request parameters to be passed.</dd>
 							
 								<dt>
-									<b>callback</b>
-									
+									<span class="light fixedFont">{function((string|undefined))}</span> <b>callback</b>
+									<i>Optional</i>
 								</dt>
-								<dd></dd>
+								<dd>The function to be called with the HTTP response content String, or undefined on failure.</dd>
 							
 							</dl>
 						
@@ -514,16 +818,23 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>elem</b>
+									<span class="light fixedFont">{Object}</span> <b>elem</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The DOM element.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string</dd>
+							
+							</dl>
 						
 						
 						
@@ -550,16 +861,23 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>elem</b>
+									<span class="light fixedFont">{Object}</span> <b>elem</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The DOM element.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string</dd>
+							
+							</dl>
 						
 						
 						
@@ -586,16 +904,23 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>opt</b>
+									<span class="light fixedFont">{string}</span> <b>opt</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The name of the option.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string The value of the option.</dd>
+							
+							</dl>
 						
 						
 						
@@ -622,12 +947,44 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>elem</b>
+									<span class="light fixedFont">{Object}</span> <b>elem</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The DOM element.</dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".init"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>init</b>()
+					
+					</div>
+					<div class="description">
+						Perform one-time initialization.
+						
+						
+					</div>
+					
+					
+					
 						
 						
 						
@@ -638,11 +995,312 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".newSession"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>newSession</b>(callback)
+					
+					</div>
+					<div class="description">
+						Start new session.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(string)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting session ID.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".newToken"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>newToken</b>(callback)
+					
+					</div>
+					<div class="description">
+						Request a new token for submitting a wikitext fragment.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(string)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting token.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".parseDialog"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>parseDialog</b>(xml)
+					
+					</div>
+					<div class="description">
+						Retrieve the list of dialogs from the response DOM element.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>xml</b>
+									
+								</dt>
+								<dd>The XML DOM element to be processed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object List of dialogs.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".parseDialogBuilders"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>parseDialogBuilders</b>(xml)
+					
+					</div>
+					<div class="description">
+						Retrieve the list of available dialog builders from the response DOM element.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>xml</b>
+									
+								</dt>
+								<dd>The XML DOM element to be processed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object List of available dialog builders.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".parseProcessors"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>parseProcessors</b>(xml)
+					
+					</div>
+					<div class="description">
+						Retrieve the list of available processors from the response DOM element.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>xml</b>
+									
+								</dt>
+								<dd>The XML DOM element to be processed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object List of available processors.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".parseSessionId"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>parseSessionId</b>(xml)
+					
+					</div>
+					<div class="description">
+						Retrieve the session ID from the response DOM element.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>xml</b>
+									
+								</dt>
+								<dd>The XML DOM element to be processed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string The session ID.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".parseToken"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>parseToken</b>(xml)
+					
+					</div>
+					<div class="description">
+						Retrieve the token from the response DOM element.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>xml</b>
+									
+								</dt>
+								<dd>The XML DOM element to be processed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string The token.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name=".parseXML"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">SztakipediaClient.</span><b>parseXML</b>(data, xml, tmp)
+					<span class="light">SztakipediaClient.</span><b>parseXML</b>(data)
 					
 					</div>
 					<div class="description">
@@ -661,20 +1319,7 @@ ul.inheritsList
 									<b>data</b>
 									
 								</dt>
-								<dd>-
-           the XML as a string</dd>
-							
-								<dt>
-									<b>xml</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<b>tmp</b>
-									
-								</dt>
-								<dd></dd>
+								<dd>{string} the XML as a string</dd>
 							
 							</dl>
 						
@@ -685,7 +1330,93 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd>the XML DOM, or <code>undefined</code> if <code>data</code> is <code>undefined</code></dd>
+								<dd>Object the XML DOM, or <code>undefined</code> if <code>data</code> is <code>undefined</code></dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".queryDialogBuilders"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>queryDialogBuilders</b>(callback)
+					
+					</div>
+					<div class="description">
+						Retrieve available dialog builders through remote REST API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(Object)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting array.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".queryProcessors"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>queryProcessors</b>(callback)
+					
+					</div>
+					<div class="description">
+						Retrieve available processors through remote REST API.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function(Object)|function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with the resulting array.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object</dd>
 							
 							</dl>
 						
@@ -695,7 +1426,7 @@ ul.inheritsList
 					<hr />
 				
 					<a name=".queryUrl"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
 					<span class="light">SztakipediaClient.</span><b>queryUrl</b>(params)
@@ -714,8 +1445,69 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>params</b>
+									<span class="light fixedFont">{Object}</span> <b>params</b>
 									
+								</dt>
+								<dd>A key-value map of the HTTP parameters.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>string The URL to query the remote REST API.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".update"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaClient.</span><b>update</b>(callback, token, content, inputformat)
+					
+					</div>
+					<div class="description">
+						Replace remotely stored wikitext associated with the given token.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{function()}</span> <b>callback</b>
+									
+								</dt>
+								<dd>The function to be called with nothing.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>token</b>
+									
+								</dt>
+								<dd>The token of the wikitext to be updated.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>content</b>
+									
+								</dt>
+								<dd>The new wikitext.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>inputformat</b>
+									<i>Optional</i>
 								</dt>
 								<dd></dd>
 							
@@ -750,16 +1542,23 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>elem</b>
+									<span class="light fixedFont">{Object}</span> <b>elem</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The DOM element.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object</dd>
+							
+							</dl>
 						
 						
 						

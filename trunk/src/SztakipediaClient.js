@@ -1,9 +1,13 @@
+/**
+ * @license Copyright 2011 MTA SZTAKI
+ * GNU General Public License v2.0 or later 
+ */
+
 // Global object
 if (typeof SztakipediaClient == 'undefined') {
 	/**
-	 * @class Offers convenient interface to the Sztakipedia REST API services.
-	 * @constructor
-	 * @namespace
+	 * @namespace Offers convenient interface to the Sztakipedia REST API services.
+	 * @requires jQuery
 	 */	
 	var SztakipediaClient = {
 
@@ -21,6 +25,7 @@ if (typeof SztakipediaClient == 'undefined') {
 
 /**
  * Default options - these mainly exist so the script won't break when a new option is added.
+ * @type Object
  */
 SztakipediaClient.DefaultOptions = {
 	'api url' : "http://diadev.sztaki.hu/SWEA-Server/REST/sztakipedia", // The RESTful API endpoint
@@ -31,6 +36,8 @@ SztakipediaClient.DefaultOptions = {
 
 /**
  * Get an option - user settings override global which override defaults
+ * @param {string} opt The name of the option.
+ * @return string The value of the option.
  */
 SztakipediaClient.getOption = function(opt) {
 	if (SztakipediaClient.UserOptions[opt] != undefined) {
@@ -50,13 +57,13 @@ SztakipediaClient.getOption = function(opt) {
  * @note Taken from jQuery.parseXML() (see http://api.jquery.com/jQuery.parseXML/) We need this because the jQuery
  *       version used in MediaWiki/WikiEditor does not provide it (probably <1.5).
  * 
- * @param data -
- *            the XML as a string
- * @return the XML DOM, or <code>undefined</code> if <code>data</code> is <code>undefined</code>
+ * @param data {string} the XML as a string
+ * @return Object the XML DOM, or <code>undefined</code> if <code>data</code> is <code>undefined</code>
  */
-SztakipediaClient.parseXML = function(data, xml, tmp) {
+SztakipediaClient.parseXML = function(data) {
 	if (typeof data == 'undefined')
 		return undefined;
+	var xml, tmp;
 
 	//alert('Raw: ' + data);
 
@@ -89,6 +96,8 @@ SztakipediaClient.parseXML = function(data, xml, tmp) {
 
 /**
  * Read an XML elements attribute list into a hash.
+ * @param {Object} elem The DOM element.
+ * @return Object
  */
 SztakipediaClient.xmlAttributesAsHash = function(elem) {
 	if (typeof elem === 'undefined')
@@ -103,6 +112,8 @@ SztakipediaClient.xmlAttributesAsHash = function(elem) {
 
 /**
  * Read an HTML elements attribute list into a hash.
+ * @param {Object} elem The DOM element.
+ * @return Object
  */
 SztakipediaClient.htmlAttributesAsHash = function(elem) {
 	if (typeof elem === 'undefined')
@@ -119,6 +130,8 @@ SztakipediaClient.htmlAttributesAsHash = function(elem) {
 
 /**
  * Concatenate text nodes inside the element.
+ * @param {Object} elem The DOM element.
+ * @return string
  */
 SztakipediaClient.extractTextRecursive = function(elem) {
 	if (elem == null)
@@ -139,6 +152,8 @@ SztakipediaClient.extractTextRecursive = function(elem) {
 
 /**
  * Concatenate text nodes inside the element, up to immediate child elements.
+ * @param {Object} elem The DOM element. 
+ * @return string
  */
 SztakipediaClient.extractTextNonRecursive = function(elem) {
 	if (elem == null) {
@@ -175,6 +190,9 @@ SztakipediaClient.extractTextNonRecursive = function(elem) {
 
 /**
  * Assemble a query URL from a set of parameters.
+ * @param {Object} params A key-value map of the HTTP parameters. 
+ * @private
+ * @return string The URL to query the remote REST API.
  */
 SztakipediaClient.queryUrl = function(params) {
 	if (typeof SztakipediaClient.getOption('json proxy url') === 'undefined')
@@ -191,6 +209,9 @@ SztakipediaClient.queryUrl = function(params) {
 
 /**
  * Perform a GET request to the API endpoint (possibly via a JSONP proxy).
+ * @param {Object} params The HTTP request parameters to be passed.
+ * @param {function((string|undefined))} [callback] The function to be called with the HTTP response content {@link String}, or undefined on failure.
+ * @private
  */
 SztakipediaClient.doGet = function(params, callback) {
 	var url = SztakipediaClient.queryUrl(params);
@@ -203,13 +224,20 @@ SztakipediaClient.doGet = function(params, callback) {
 		callback(data);
 	},
 	'error' : function(xhr, textStatus, httpErrorThrown) {
-		alert('ERROR: while performing AJAX call. (status: ' + textStatus + ', HTTP error: ' + httpErrorThrown + ', URL: ' + url + ")"); // TODO remove in production version?
+		// alert('ERROR: while performing AJAX call. (status: ' + textStatus + ', HTTP error: ' + httpErrorThrown + ', URL: ' + url + ")");
 		callback(undefined);
 	}
 	});
 };
 
 // PARSER FUNCTIONS (XML -> Javascript)
+/**
+ * Retrieve the list of available processors from the response DOM element.
+ * @param {Object} xml The XML DOM element to be processed.
+ * @function
+ * @return Object List of available processors.
+ * @private
+ */
 SztakipediaClient.parseProcessors = function(xml) {
 	if (typeof xml == 'undefined')
 		return undefined;
@@ -223,6 +251,12 @@ SztakipediaClient.parseProcessors = function(xml) {
 	return list;
 };
 
+/**
+ * Retrieve the list of available dialog builders from the response DOM element.
+ * @param {Object} xml The XML DOM element to be processed.
+ * @return Object List of available dialog builders.
+ * @private
+ */
 SztakipediaClient.parseDialogBuilders = function(xml) {
 	if (typeof xml === 'undefined')
 		return undefined;
@@ -236,6 +270,12 @@ SztakipediaClient.parseDialogBuilders = function(xml) {
 	return list;
 };
 
+/**
+ * Retrieve the list of dialogs from the response DOM element.
+ * @param {Object} xml The XML DOM element to be processed.
+ * @return Object List of dialogs.
+ * @private
+ */
 SztakipediaClient.parseDialog = function(xml) {
 	if (typeof xml === 'undefined')
 		return undefined;
@@ -304,6 +344,13 @@ SztakipediaClient.parseDialog = function(xml) {
 	return list;
 };
 
+/**
+ * Retrieve the session ID from the response DOM element.
+ * @param {Object} xml The XML DOM element to be processed.
+ * @return string The session ID.
+ * @private
+ * 
+ */
 SztakipediaClient.parseSessionId = function(xml) {
 	if (typeof xml == 'undefined')
 		return undefined;
@@ -313,6 +360,13 @@ SztakipediaClient.parseSessionId = function(xml) {
 	return sessionid;
 };
 
+/**
+ * Retrieve the token from the response DOM element.
+ * @param {Object} xml The XML DOM element to be processed.
+ * @function
+ * @return string The token.
+ * @private
+ */
 SztakipediaClient.parseToken = function(xml) {
 	if (typeof xml == 'undefined')
 		return undefined;
@@ -324,7 +378,13 @@ SztakipediaClient.parseToken = function(xml) {
 	return token;
 };
 
-// API FUNCTIONS
+/* PUBLIC METHODS */
+/**
+ * Retrieve available processors through remote REST API.
+ * @param {function(Object)|function()} callback The function to be called with the resulting array. 
+ * @public
+ * @return Object
+ */
 SztakipediaClient.queryProcessors = function(callback) {
 	SztakipediaClient.doGet( {
 		'action' : 'query',
@@ -334,6 +394,12 @@ SztakipediaClient.queryProcessors = function(callback) {
 	});
 };
 
+/**
+ * Retrieve available dialog builders through remote REST API.
+ * @param {function(Object)|function()} callback The function to be called with the resulting array. 
+ * @public
+ * @return Object
+ */
 SztakipediaClient.queryDialogBuilders = function(callback) {
 	//	alert('queryDialogBuilders');
 	SztakipediaClient.doGet( {
@@ -344,6 +410,13 @@ SztakipediaClient.queryDialogBuilders = function(callback) {
 	});
 };
 
+/**
+ * Start new session.
+ * @param {function(string)|function()} callback The function to be called with the resulting session ID. 
+ * @public
+ * @return string
+ * 
+ */
 SztakipediaClient.newSession = function(callback) {
 	// check if there is a session open
 	if (typeof SztakipediaClient.sessionid != 'undefined') {
@@ -364,6 +437,12 @@ SztakipediaClient.newSession = function(callback) {
 		});
 };
 
+/**
+ * Request a new token for submitting a wikitext fragment.
+ * @param {function(string)|function()} callback The function to be called with the resulting token. 
+ * @public
+ * @return string
+ */
 SztakipediaClient.newToken = function(callback) {
 	if (typeof SztakipediaClient.sessionid === 'undefined') {
 		alert('WARNING: A session is not available, continuing anyway.');
@@ -378,13 +457,21 @@ SztakipediaClient.newToken = function(callback) {
 		});
 };
 
+/**
+ * Replace remotely stored wikitext associated with the given token.
+ * @param {function()} callback The function to be called with nothing. 
+ * @param {string} token The token of the wikitext to be updated.
+ * @param {string} content The new wikitext. 
+ * @param {string} [inputformat]  
+ * @public
+ */
 SztakipediaClient.update = function(callback, token, content, inputformat) {
 	if (typeof SztakipediaClient.sessionid == 'undefined') {
 		alert('WARNING: A session is not available, continuing anyway.');
 	}
 	inputformat = inputformat || 'wikitext';
 
-	// FIXME use POST instead
+	// TODO use POST instead
 	SztakipediaClient.doGet( {
 		'action' : 'update',
 		'token' : token,
@@ -392,10 +479,18 @@ SztakipediaClient.update = function(callback, token, content, inputformat) {
 		'content' : content
 	}, function(data) {
 		//TODO process output of ?action=update
-			callback(data); // TODO call with some meaningful info, e.g. editCount
+			callback(); // TODO call with some meaningful info, e.g. editCount
 		});
 };
 
+/**
+ * Request suggestions from the given dialog builders through remote REST API.
+ * @param {function(Object)|function()} callback The function to be called with the resulting array of dialogs. 
+ * @param {string} token The token of the wikitext to be processed.
+ * @param {string} dialogbuilder The unique name of the dialog builder. 
+ * @param {Object} [builderparams] The unique name of the dialog builder. 
+ * @public
+ */
 SztakipediaClient.buildDialogs = function(callback, token, dialogbuilder, builderparams) {
 	if (typeof SztakipediaClient.sessionid == 'undefined') {
 		alert('WARNING: A session is not available, continuing anyway.');
@@ -421,6 +516,14 @@ SztakipediaClient.buildDialogs = function(callback, token, dialogbuilder, builde
 	});
 };
 
+/**
+ * Request entities from the given text processor through remote REST API.
+ * @param {function(Object)|function()} callback The function to be called with the resulting array of entities.
+ * @param {string} token The token of the wikitext to be processed.
+ * @param {string} processor The unique name of the processor. 
+ * @public
+ * @deprecated Response processing not implemented.
+ */
 SztakipediaClient.buildList = function(callback, token, processor) {
 	if (typeof SztakipediaClient.sessionid == 'undefined') {
 		alert('WARNING: A session is not available, continuing anyway.');
@@ -435,6 +538,15 @@ SztakipediaClient.buildList = function(callback, token, processor) {
 		});
 };
 
+/**
+ * Signal that the user accepted a suggestion towards the remote REST API.
+ * 
+ * @param {function()} callback The function to be called with nothing.
+ * @param {string} token The token of the wikitext to be processed.
+ * @param {string} builder The unique name of the builder. 
+ * @param {string} dialogId The identifier of the dialog. 
+ * @param {string} suggestionId The identifier of the suggestion being accepted. 
+ */
 SztakipediaClient.answerDialog = function(callback, token, builder, dialogId, suggestionId) {
 	if (typeof SztakipediaClient.sessionid == 'undefined') {
 		alert('WARNING: A session is not available, continuing anyway.');
@@ -447,10 +559,13 @@ SztakipediaClient.answerDialog = function(callback, token, builder, dialogId, su
 		'dialogId' : dialogId,
 		'suggestionId' : suggestionId
 	}, function(data) {
-		callback(data); // data is empty by design
+		callback(); // data is empty by design
 		});
 };
 
+/**
+ * Perform one-time initialization.
+ */
 SztakipediaClient.init = function() {
 	if (SztakipediaClient.getOption('debug')) {
 		// Provides cross-browser JSON serialization. For debugging purposes.

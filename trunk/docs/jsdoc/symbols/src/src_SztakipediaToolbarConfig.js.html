@@ -1,0 +1,273 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// TODO from CiteTB</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/* Sitewide options for the the Cite toolbar button:
+<span class='line'>  3</span> * All options should be specified
+<span class='line'>  4</span> *
+<span class='line'>  5</span> * "date format" sets the date format used for the function to insert the current date
+<span class='line'>  6</span> * Current available options:
+<span class='line'>  7</span> * date - the daciy of the month
+<span class='line'>  8</span> * zdate - day of the month, zero padded to 2 digits
+<span class='line'>  9</span> * monthname - The month name
+<span class='line'> 10</span> * month - The numberic month (1-12)
+<span class='line'> 11</span> * zmonth - numeric month, zero padded to 2 digits
+<span class='line'> 12</span> * year - The full year (4 digits)
+<span class='line'> 13</span> *
+<span class='line'> 14</span> * "autodate fields" is a list of template fields that should have a button to insert the current date
+<span class='line'> 15</span> * 
+<span class='line'> 16</span> * "months" is a list of localized month names
+<span class='line'> 17</span> *
+<span class='line'> 18</span> * "modal" - if true, the dialogs will be modal windows, blocking access to the rest of the window.
+<span class='line'> 19</span> * See http://en.wikipedia.org/wiki/Modal_window
+<span class='line'> 20</span> * All dialogs in the toolbar are modal by default
+<span class='line'> 21</span> *
+<span class='line'> 22</span> * "autoparse" - if true, previewing a ref will automatically trigger a preview of the parsed wikitext.
+<span class='line'> 23</span> * Its not recommended to set this to true as a global setting as it may slow the script down for people
+<span class='line'> 24</span> * with slow connections
+<span class='line'> 25</span> *
+<span class='line'> 26</span> * "expandtemplates" - if true, templates and parser functions will be expanded when getting page text
+<span class='line'> 27</span> * (templates inside of ref tags will not be expanded). This will allow references inside of templates or
+<span class='line'> 28</span> * references using {{#tag:ref}} to be listed in the named refs dialog and searched by error checks.
+<span class='line'> 29</span> * This may slow loading the named refs and error check dialogs.
+<span class='line'> 30</span> */</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="NAME">SztakipediaTB.Options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="STRN">"date format"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"&lt;date> &lt;monthname> &lt;year>"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="STRN">"autodate fields"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'accessdate'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="STRN">"months"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'January'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'February'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'March'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'April'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'May'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'June'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'July'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'August'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'September'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'October'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'November'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'December'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="STRN">"modal"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="STRN">"autoparse"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="STRN">"expandtemplates"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="STRN">"basedir"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"http://pediadev.sztaki.hu/~illes/SztakipediaToolbar/"</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="COMM">/*
+<span class='line'> 42</span> // Cite template definitions
+<span class='line'> 43</span> new sztakipediaTemplate('cite web', 'web',
+<span class='line'> 44</span> [ // Basic fields
+<span class='line'> 45</span> {"field": "last", "autofillprop":"last1"},
+<span class='line'> 46</span> {"field": "first", "autofillprop":"first1"}, 
+<span class='line'> 47</span> {"field": "title", "autofillprop":"title"},
+<span class='line'> 48</span> {"field": "url"},
+<span class='line'> 49</span> {"field": "work", "tooltip": "sztakipedia-work-tooltip", "autofillprop":"journal"},
+<span class='line'> 50</span> {"field": "publisher"},
+<span class='line'> 51</span> {"field": "accessdate"}
+<span class='line'> 52</span> ],
+<span class='line'> 53</span> [ // Expanded fields
+<span class='line'> 54</span> {"field": "author"},
+<span class='line'> 55</span> {"field": "authorlink", "tooltip":"sztakipedia-authorlink-tooltip"},
+<span class='line'> 56</span> {"field": "coauthors", "autofillprop":"coauthors"},
+<span class='line'> 57</span> {"field": "archiveurl"},
+<span class='line'> 58</span> {"field": "archivedate"},
+<span class='line'> 59</span> {"field": "location"},
+<span class='line'> 60</span> {"field": "page"},
+<span class='line'> 61</span> {"field": "pages", "autofillprop":"pages"},
+<span class='line'> 62</span> {"field": "language"},
+<span class='line'> 63</span> {"field": "format"},
+<span class='line'> 64</span> {"field": "doi", "autofillid":"doi"},
+<span class='line'> 65</span> {"field": "date", "autofillprop":"date"},
+<span class='line'> 66</span> {"field": "month"},
+<span class='line'> 67</span> {"field": "year"},
+<span class='line'> 68</span> {"field": "quote"}
+<span class='line'> 69</span> ]);
+<span class='line'> 70</span> 
+<span class='line'> 71</span> new sztakipediaTemplate('cite news', 'news',
+<span class='line'> 72</span> [ // Basic fields
+<span class='line'> 73</span> {"field": "last"},
+<span class='line'> 74</span> {"field": "first"}, 
+<span class='line'> 75</span> {"field": "title"},
+<span class='line'> 76</span> {"field": "url"},
+<span class='line'> 77</span> {"field": "accessdate"},
+<span class='line'> 78</span> {"field": "newspaper"},
+<span class='line'> 79</span> {"field": "date"}
+<span class='line'> 80</span> ],
+<span class='line'> 81</span> [ // Expanded fields
+<span class='line'> 82</span> {"field": "author"},
+<span class='line'> 83</span> {"field": "author2"},
+<span class='line'> 84</span> {"field": "author3"},
+<span class='line'> 85</span> {"field": "author4"},
+<span class='line'> 86</span> {"field": "author5"},
+<span class='line'> 87</span> {"field": "authorlink", "tooltip":"sztakipedia-authorlink-tooltip"},
+<span class='line'> 88</span> {"field": "agency"},
+<span class='line'> 89</span> {"field": "archiveurl"},
+<span class='line'> 90</span> {"field": "archivedate"},
+<span class='line'> 91</span> {"field": "location"},
+<span class='line'> 92</span> {"field": "page"},
+<span class='line'> 93</span> {"field": "pages"},
+<span class='line'> 94</span> {"field": "language"},
+<span class='line'> 95</span> {"field": "format"},
+<span class='line'> 96</span> {"field": "doi"},
+<span class='line'> 97</span> {"field": "month"},
+<span class='line'> 98</span> {"field": "year"},
+<span class='line'> 99</span> {"field": "quote"}
+<span class='line'>100</span> ]);
+<span class='line'>101</span> 
+<span class='line'>102</span> new sztakipediaTemplate('cite book', 'book',
+<span class='line'>103</span> [ // Basic fields
+<span class='line'>104</span> {"field": "last", "autofillprop":"last1"},
+<span class='line'>105</span> {"field": "first", "autofillprop":"first1"}, 
+<span class='line'>106</span> {"field": "title", "autofillprop":"title"},
+<span class='line'>107</span> {"field": "year", "autofillprop":"year"},
+<span class='line'>108</span> {"field": "publisher", "autofillprop":"publisher"},
+<span class='line'>109</span> {"field": "location", "autofillprop":"location"},
+<span class='line'>110</span> {"field": "isbn", "autofillid":"isbn"},
+<span class='line'>111</span> {"field": "pages"},
+<span class='line'>112</span> {"field": "url"}
+<span class='line'>113</span> ],
+<span class='line'>114</span> [ // Expanded fields
+<span class='line'>115</span> {"field": "author"},
+<span class='line'>116</span> {"field": "edition", "autofillprop":"edition"},
+<span class='line'>117</span> {"field": "authorlink", "tooltip":"sztakipedia-authorlink-tooltip"},
+<span class='line'>118</span> {"field": "coauthors", "autofillprop":"coauthors"},
+<span class='line'>119</span> {"field": "editor"},
+<span class='line'>120</span> {"field": "accessdate"},
+<span class='line'>121</span> {"field": "archiveurl"},
+<span class='line'>122</span> {"field": "archivedate"},
+<span class='line'>123</span> {"field": "page"},
+<span class='line'>124</span> {"field": "language"},
+<span class='line'>125</span> {"field": "format"},
+<span class='line'>126</span> {"field": "chapter"},
+<span class='line'>127</span> {"field": "date"},
+<span class='line'>128</span> {"field": "month"},
+<span class='line'>129</span> {"field": "quote"}
+<span class='line'>130</span> ]);
+<span class='line'>131</span> 
+<span class='line'>132</span> new sztakipediaTemplate('cite url', 'url',
+<span class='line'>133</span> [ // Basic fields
+<span class='line'>134</span> {"field": "url"},
+<span class='line'>135</span> {"field": "accessdate"}
+<span class='line'>136</span> ],
+<span class='line'>137</span> [ // Expanded fields
+<span class='line'>138</span> {"field": "author"},
+<span class='line'>139</span> {"field": "edition", "autofillprop":"edition"},
+<span class='line'>140</span> {"field": "authorlink", "tooltip":"sztakipedia-authorlink-tooltip"},
+<span class='line'>141</span> {"field": "coauthors", "autofillprop":"coauthors"},
+<span class='line'>142</span> {"field": "editor"},
+<span class='line'>143</span> {"field": "archiveurl"},
+<span class='line'>144</span> {"field": "archivedate"},
+<span class='line'>145</span> {"field": "language"},
+<span class='line'>146</span> {"field": "format"},
+<span class='line'>147</span> {"field": "date"},
+<span class='line'>148</span> {"field": "month"},
+<span class='line'>149</span> {"field": "quote"}
+<span class='line'>150</span> ]);
+<span class='line'>151</span> 
+<span class='line'>152</span> new sztakipediaTemplate('cite journal', 'journal',
+<span class='line'>153</span> [ // Basic fields
+<span class='line'>154</span> {"field": "last", "autofillprop":"last1"},
+<span class='line'>155</span> {"field": "first", "autofillprop":"first1"},
+<span class='line'>156</span> {"field": "coauthors", "autofillprop":"coauthors"},
+<span class='line'>157</span> {"field": "title", "autofillprop":"title"},
+<span class='line'>158</span> {"field": "journal", "autofillprop":"journal"},
+<span class='line'>159</span> {"field": "date", "autofillprop":"date"},
+<span class='line'>160</span> {"field": "year"},
+<span class='line'>161</span> {"field": "month"},
+<span class='line'>162</span> {"field": "volume", "autofillprop":"volume"},
+<span class='line'>163</span> {"field": "series"},
+<span class='line'>164</span> {"field": "issue", "autofillprop":"issue"},
+<span class='line'>165</span> {"field": "pages", "autofillprop":"pages"},
+<span class='line'>166</span> {"field": "doi", "autofillid":"doi"},
+<span class='line'>167</span> {"field": "pmid", "autofillid":"pmid"},
+<span class='line'>168</span> {"field": "url"},
+<span class='line'>169</span> {"field": "accessdate"}
+<span class='line'>170</span> ],
+<span class='line'>171</span> [ // Expanded fields
+<span class='line'>172</span> {"field": "author"},
+<span class='line'>173</span> {"field": "authorlink"},
+<span class='line'>174</span> {"field": "editor1-first"},
+<span class='line'>175</span> {"field": "editor1-last"},
+<span class='line'>176</span> {"field": "editor1-link"},
+<span class='line'>177</span> {"field": "page"},
+<span class='line'>178</span> {"field": "at", "tooltip":"sztakipedia-at-tooltip"},
+<span class='line'>179</span> {"field": "trans_title"},
+<span class='line'>180</span> {"field": "publisher"},
+<span class='line'>181</span> {"field": "location"},
+<span class='line'>182</span> {"field": "language"},
+<span class='line'>183</span> {"field": "format"},
+<span class='line'>184</span> {"field": "issn"},
+<span class='line'>185</span> {"field": "pmc"},
+<span class='line'>186</span> {"field": "oclc"},
+<span class='line'>187</span> {"field": "bibcode"},
+<span class='line'>188</span> {"field": "id"},
+<span class='line'>189</span> {"field": "quote"},
+<span class='line'>190</span> {"field": "ref", "tooltip":"sztakipedia-ref-tooltip"},
+<span class='line'>191</span> {"field": "postscript", "tooltip":"sztakipedia-postscript-tooltip"}
+<span class='line'>192</span> ]);
+<span class='line'>193</span> */</span><span class="WHIT">
+<span class='line'>194</span> 
+<span class='line'>195</span> </span><span class="COMM">// TODO from CiteTB</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="COMM">//new sztakipediaErrorCheck({'type':'reflist', 'testname':'samecontent', 'desc': 'sztakipedia-samecontent-desc',</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="COMM">//'func': function(reflist) {</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="COMM">//  var errors = [];</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="COMM">//  var refs2 = [];</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="COMM">//  for(var i=0; i&lt;reflist.length; i++) {</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="COMM">//    if (!reflist[i].shorttag) {</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="COMM">//      if ($j.inArray(reflist[i].content, refs2) != -1) {</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="COMM">//        if ($j.inArray(reflist[i].content, errors) == -1) {</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="COMM">//          errors.push(reflist[i].content);</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="COMM">//        }</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="COMM">//      } else {</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="COMM">//        refs2.push(reflist[i].content);</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="COMM">//      }</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="COMM">//    }</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="COMM">//  ret = [];</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="COMM">//  for(var j=0; j&lt;errors.length; j++) {</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="COMM">//    ret.push({'msg':'sztakipedia-samecontent-error', 'err':errors[j]});</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="COMM">//  return ret;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="COMM">//}}</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="COMM">//);</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="COMM">//// TODO from CiteTB</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="COMM">//new sztakipediaErrorCheck({'type':'reflist', 'testname':'repeated', 'desc':'sztakipedia-repeated-desc',</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="COMM">//'func': function(reflist) {</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="COMM">//  var errors = [];</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="COMM">//  var refs2 = [];</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="COMM">//  for(var i=0; i&lt;reflist.length; i++) {</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="COMM">//    if (!reflist[i].shorttag && reflist[i].refname) {</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="COMM">//      if ($j.inArray(reflist[i].refname, refs2) != -1) {</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="COMM">//        if ($j.inArray(reflist[i].refname, errors) == -1) {</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="COMM">//          errors.push(reflist[i].refname);</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="COMM">//        }</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="COMM">//      } else {</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="COMM">//        refs2.push(reflist[i].refname);</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="COMM">//      }</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="COMM">//    }</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="COMM">//  ret = [];</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="COMM">//  for(var j=0; j&lt;errors.length; j++) {</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="COMM">//    ret.push({'msg':'sztakipedia-repeated-error', 'err':errors[j]});</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="COMM">//  return ret;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="COMM">//}}</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="COMM">//);</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="COMM">//new sztakipediaErrorCheck({'type':'reflist', 'testname':'undefined', 'desc':'sztakipedia-undefined-desc',</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="COMM">//'func': function(reflist) {</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="COMM">//  var errors = [];</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="COMM">//  var longrefs = [];</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="COMM">//  for(var i=0; i&lt;reflist.length; i++) {</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="COMM">//    if (!reflist[i].shorttag && reflist[i].refname) {</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="COMM">//      longrefs.push(reflist[i].refname);</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="COMM">//    }</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="COMM">//  for(var j=0; i&lt;reflist.length; j++) {</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="COMM">//    if (reflist[i].shorttag && $j.inArray(reflist[i].refname, errors) == -1 && $j.inArray(reflist[i].refname, longrefs) == -1) {</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="COMM">//      errors.push(reflist[i].refname);</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="COMM">//    }</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="COMM">//  ret = [];</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="COMM">//  for(var j=0; j&lt;errors.length; j++) {</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="COMM">//    ret.push({'msg':'sztakipedia-undefined-error', 'err':errors[j]});</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="COMM">//  }</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="COMM">//  return ret;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="COMM">//}}</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="COMM">//);</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="NAME">SztakipediaTB.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

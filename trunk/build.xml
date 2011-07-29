@@ -34,15 +34,18 @@
 	<target name="jsdoc">
 		<jsdoctoolkit 
 				jsdochome="${basedir}/lib/jsdoc-toolkit-2.4.0/"
-				template="jsdoc" 
-				outputdir="docs/jsdoc"
-				includeprivate="yes"
-				includeundocumented="yes"
+				template="sztaki" 
+				outputdir="${basedir}/docs/jsdoc"
+				inputdir="src" depth="0"
+				includeprivate="no"
+				includeundocumented="no"
 				verbose="yes">
-				
-			<fileset dir="${basedir}/src">
+				<arg name="copyright" value=" 2011 - MTA SZTAKI "/>
+				<!--
+			<fileset dir="src">
 				<include name="*.js" />
 			</fileset>
+			-->
 			
 		</jsdoctoolkit>
 	</target>

@@ -1,3 +1,5 @@
+/* Copyright 2011 MTA SZTAKI - Licensed under: GNU General Public License v2.0 or later */
+
 // TODO from CiteTB
 /* Sitewide options for the the Cite toolbar button:
 * All options should be specified

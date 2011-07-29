@@ -212,6 +212,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/SztakipediaTB.html">SztakipediaTB</a></li>
 	
+	<li><a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a></li>
+	
 </ul>
 <hr />
 			<!-- end publish.classesIndex -->
@@ -229,7 +231,7 @@ ul.inheritsList
 				
 				
 			
-				
+				Provides a toolbar for WikiEditor with tools to easily insert links, categories, references, etc.
 				
 				
 					<br /><i>Defined in: </i> <a href="../symbols/src/src_SztakipediaToolbar.js.html">SztakipediaToolbar.js</a>.
@@ -262,6 +264,74 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class SztakipediaTB.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.DefaultOptions">DefaultOptions</a></b>
+								</div>
+								<div class="description">Global default options that are overidden by  <a href="../symbols/SztakipediaTB.html#.Options">SztakipediaTB.Options</a> and by <a href="../symbols/SztakipediaTB.html#.UserOptions">SztakipediaTB.UserOptions</a>.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.Dialogs">Dialogs</a></b>
+								</div>
+								<div class="description">All dialogs.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.Options">Options</a></b>
+								</div>
+								<div class="description">Site-wide options that override <a href="../symbols/SztakipediaTB.html#.DefaultOptions">SztakipediaTB.DefaultOptions</a>, and are overidden by <a href="../symbols/SztakipediaTB.html#.UserOptions">SztakipediaTB.UserOptions</a>.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.Templates">Templates</a></b>
+								</div>
+								<div class="description">All <a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a> objects.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.UserOptions">UserOptions</a></b>
+								</div>
+								<div class="description">User options that override <a href="../symbols/SztakipediaTB.html#.DefaultOptions">SztakipediaTB.DefaultOptions</a> and <a href="../symbols/SztakipediaTB.html#.Options">SztakipediaTB.Options</a>.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
 
 <!-- ============================== methods summary ======================== -->
 			
@@ -282,9 +352,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.addTemplateFromXhtml">addTemplateFromXhtml</a></b>(template)
 								</div>
-								<div class="description">Create a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element
-
-TODO move as much as possible to SztakipediaClient</div>
+								<div class="description">Creates a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element.</div>
 							</td>
 						</tr>
 					
@@ -307,11 +375,38 @@ TODO move as much as possible to SztakipediaClient</div>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.expandtemplates">expandtemplates</a></b>(text, callback)
 								</div>
 								<div class="description">Use the API to expand templates on some text</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.fillNrefPreview">fillNrefPreview</a></b>(parsed)
+								</div>
+								<div class="description">Callback function for parsed preview</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.fillTemplatePreview">fillTemplatePreview</a></b>(text)
+								</div>
+								<div class="description">Callback function for parsed preview.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.getMsgPlaceholder">getMsgPlaceholder</a></b>(msgid)
+								</div>
+								<div class="description">Return a localized string for the key if present, or the key itself surrounded by braces if a localized string is missing.</div>
 							</td>
 						</tr>
 					
@@ -329,7 +424,7 @@ TODO move as much as possible to SztakipediaClient</div>
 							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.getOption">getOption</a></b>(opt)
 								</div>
-								<div class="description">Get an option - user settings override global which override defaults</div>
+								<div class="description">Get an option - user settings override site-wide which override defaults.</div>
 							</td>
 						</tr>
 					
@@ -348,6 +443,132 @@ TODO move as much as possible to SztakipediaClient</div>
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.getQuotedString">getQuotedString</a></b>(s)
 								</div>
 								<div class="description">Returns a string quoted as necessary for name/group attributes</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.getRef">getRef</a></b>(inneronly, forinsert)
+								</div>
+								<div class="description">Actually assemble a ref from user input</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.getTarget">getTarget</a></b>()
+								</div>
+								<div class="description">The textarea to attach to.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.handleBookFormSubmit">handleBookFormSubmit</a></b>()
+								</div>
+								<div class="description">Search for books based on the search form.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.init">init</a></b>()
+								</div>
+								<div class="description">Initialize the toolbar.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initAutofill">initAutofill</a></b>()
+								</div>
+								<div class="description">Autofill a template from an ID (ISBN, DOI, PMID)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initBook">initBook</a></b>()
+								</div>
+								<div class="description">Initialize the book reference insertion tool.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initCategory">initCategory</a></b>()
+								</div>
+								<div class="description">Initialize the category link insertion tool.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initInfo">initInfo</a></b>()
+								</div>
+								<div class="description">Initialize the toolbar for debugging tools.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initInfobox">initInfobox</a></b>()
+								</div>
+								<div class="description">Initialize the infobox insertion tool.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.initLink">initLink</a></b>()
+								</div>
+								<div class="description">Initialize the internal link insertion tool.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.loadBookSuggestions">loadBookSuggestions</a></b>()
+								</div>
+								<div class="description">Retrieve book suggestions.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.loadCategorySuggestions">loadCategorySuggestions</a></b>()
+								</div>
+								<div class="description">Retrieve category suggestions.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.loadInfoboxSuggestions">loadInfoboxSuggestions</a></b>()
+								</div>
+								<div class="description">Retrieve infobox suggestions.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.loadLinkSuggestions">loadLinkSuggestions</a></b>()
+								</div>
+								<div class="description">Retrieve internal link suggestions.</div>
 							</td>
 						</tr>
 					
@@ -372,6 +593,15 @@ TODO move as much as possible to SztakipediaClient</div>
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.prevParseClick">prevParseClick</a></b>()
+								</div>
+								<div class="description">Click handler for template parsed preview</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.replaceRange">replaceRange</a></b>(start, end, replacement)
 								</div>
 								<div class="description">Replace a text range (e.g.</div>
@@ -379,20 +609,29 @@ TODO move as much as possible to SztakipediaClient</div>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.resetForm">resetForm</a></b>()
 								</div>
-								<div class="description">Resets form fields and previews</div>
+								<div class="description">Resets form fields and previews.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.scrollTo">scrollTo</a></b>(scrollTo:, container:, speed)
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.scrollTo">scrollTo</a></b>(scrollTo, container, speed)
 								</div>
 								<div class="description">Scroll to specific item.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.searchByInsertionStragtegy">searchByInsertionStragtegy</a></b>(insertionstrategies, text)
+								</div>
+								<div class="description">Search the target text field for a text range matched by the insertion strategies.</div>
 							</td>
 						</tr>
 					
@@ -408,6 +647,15 @@ TODO move as much as possible to SztakipediaClient</div>
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.setupBookSuggestions">setupBookSuggestions</a></b>(dialogs)
+								</div>
+								<div class="description">Produce HTML for the book suggestions dialog.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.setupCategorySuggestions">setupCategorySuggestions</a></b>(dialogs)
 								</div>
 								<div class="description">Produce HTML for the category suggestions dialog.</div>
@@ -417,9 +665,9 @@ TODO move as much as possible to SztakipediaClient</div>
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.setupDialogs">setupDialogs</a></b>(dialogs, sname, elem)
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.setupDialogs">setupDialogs</a></b>(dialogs, sname, elementId)
 								</div>
-								<div class="description">Create HTML corresponding to a set of dialogs</div>
+								<div class="description">Create HTML corresponding to a set of generic dialogs.</div>
 							</td>
 						</tr>
 					
@@ -454,9 +702,18 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.showHideExtra">showHideExtra</a></b>()
+								</div>
+								<div class="description">Show/hide the extra fields in the dialog box</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaTB.<b><a href="../symbols/SztakipediaTB.html#.toDialog">toDialog</a></b>(tem)
 								</div>
-								<div class="description">Create a WikiEditor dialog from a SztakipediaTemplate object</div>
+								<div class="description">Create a WikiEditor dialog from a <a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a> object.</div>
 							</td>
 						</tr>
 					
@@ -503,12 +760,141 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 					
 					
 					
+						<dl class="detailList">
+						<dt class="heading">Requires:</dt>
+						
+							<dd><a href="../symbols/SztakipediaClient.html">SztakipediaClient</a></dd>
+						
+							<dd><a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a></dd>
+						
+							<dd>MediaWiki-UI</dd>
+						
+							<dd>jQuery</dd>
+						
+						</dl>
+					
 					
 
 			</div>
 			
 
 <!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".DefaultOptions"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">SztakipediaTB.</span><b>DefaultOptions</b>
+					
+					</div>
+					<div class="description">
+						Global default options that are overidden by  <a href="../symbols/SztakipediaTB.html#.Options">SztakipediaTB.Options</a> and by <a href="../symbols/SztakipediaTB.html#.UserOptions">SztakipediaTB.UserOptions</a>.
+It mainly exist so the script won't break if a new option is added.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".Dialogs"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">SztakipediaTB.</span><b>Dialogs</b>
+					
+					</div>
+					<div class="description">
+						All dialogs.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".Options"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">SztakipediaTB.</span><b>Options</b>
+					
+					</div>
+					<div class="description">
+						Site-wide options that override <a href="../symbols/SztakipediaTB.html#.DefaultOptions">SztakipediaTB.DefaultOptions</a>, and are overidden by <a href="../symbols/SztakipediaTB.html#.UserOptions">SztakipediaTB.UserOptions</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".Templates"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">SztakipediaTB.</span><b>Templates</b>
+					
+					</div>
+					<div class="description">
+						All <a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a> objects.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".UserOptions"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">SztakipediaTB.</span><b>UserOptions</b>
+					
+					</div>
+					<div class="description">
+						User options that override <a href="../symbols/SztakipediaTB.html#.DefaultOptions">SztakipediaTB.DefaultOptions</a> and <a href="../symbols/SztakipediaTB.html#.Options">SztakipediaTB.Options</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
 			
 
 <!-- ============================== method details ========================= -->		
@@ -520,14 +906,12 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 					<a name=".addTemplateFromXhtml"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{Object}</span>
 					<span class="light">SztakipediaTB.</span><b>addTemplateFromXhtml</b>(template)
 					
 					</div>
 					<div class="description">
-						Create a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element
-
-TODO move as much as possible to SztakipediaClient
+						Creates a RefToolbar-style template descriptor from a Sztakipedia XHTML DOM template element.
 						
 						
 					</div>
@@ -549,6 +933,13 @@ TODO move as much as possible to SztakipediaClient
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> The resulting sztakipediTemplate object.</dd>
+							
+							</dl>
 						
 						
 						
@@ -628,7 +1019,7 @@ TODO move as much as possible to SztakipediaClient
 					<hr />
 				
 					<a name=".expandtemplates"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
 					<span class="light">SztakipediaTB.</span><b>expandtemplates</b>(text, callback)
@@ -647,22 +1038,144 @@ TODO move as much as possible to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>text</b>
+									<span class="light fixedFont">{string}</span> <b>text</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The wikitext fragment to be expanded.</dd>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{function(string)}</span> <b>callback</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The function to be called with the resulting HTML.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Requires:</dt>
+							
+								<dd>MediaWiki-API</dd>
+							
+							</dl>
+						
+						
+
+					<hr />
+				
+					<a name=".fillNrefPreview"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>fillNrefPreview</b>(parsed)
+					
+					</div>
+					<div class="description">
+						Callback function for parsed preview
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>parsed</b>
+									
+								</dt>
+								<dd>The HTML string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".fillTemplatePreview"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>fillTemplatePreview</b>(text)
+					
+					</div>
+					<div class="description">
+						Callback function for parsed preview.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>text</b>
+									
+								</dt>
+								<dd>The HTML fragment.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getMsgPlaceholder"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{string}</span>
+					<span class="light">SztakipediaTB.</span><b>getMsgPlaceholder</b>(msgid)
+					
+					</div>
+					<div class="description">
+						Return a localized string for the key if present, or the key itself surrounded by braces if a localized string is missing.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>msgid</b>
+									
+								</dt>
+								<dd>The message key, e.g. 'sztakipedia-accept'.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> The localized string, or the encapsulated key.</dd>
+							
+							</dl>
 						
 						
 						
@@ -697,12 +1210,12 @@ TODO move as much as possible to SztakipediaClient
 					<a name=".getOption"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{string}</span>
 					<span class="light">SztakipediaTB.</span><b>getOption</b>(opt)
 					
 					</div>
 					<div class="description">
-						Get an option - user settings override global which override defaults
+						Get an option - user settings override site-wide which override defaults.
 						
 						
 					</div>
@@ -714,16 +1227,23 @@ TODO move as much as possible to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>opt</b>
+									<span class="light fixedFont">{string|undefined}</span> <b>opt</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The name of the option.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{string}</span> The value of the option.</dd>
+							
+							</dl>
 						
 						
 						
@@ -750,10 +1270,10 @@ TODO move as much as possible to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{function(string)}</span> <b>callback</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The function to be called with the resulting HTML.</dd>
 							
 							</dl>
 						
@@ -761,6 +1281,13 @@ TODO move as much as possible to SztakipediaClient
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Requires:</dt>
+							
+								<dd>MediaWiki-API</dd>
+							
+							</dl>
 						
 						
 
@@ -802,6 +1329,381 @@ TODO move as much as possible to SztakipediaClient
 
 					<hr />
 				
+					<a name=".getRef"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>getRef</b>(inneronly, forinsert)
+					
+					</div>
+					<div class="description">
+						Actually assemble a ref from user input
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>inneronly</b>
+									
+								</dt>
+								<dd>Omit &lt;ref&gt; tags.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>forinsert</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getTarget"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{jQuery|wikiEditor}</span>
+					<span class="light">SztakipediaTB.</span><b>getTarget</b>()
+					
+					</div>
+					<div class="description">
+						The textarea to attach to.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{jQuery|wikiEditor}</span> The jQuery DOM element of the main text input field.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".handleBookFormSubmit"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>handleBookFormSubmit</b>()
+					
+					</div>
+					<div class="description">
+						Search for books based on the search form.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".init"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>init</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the toolbar. Adds a new toolbar section with tools, creates precomputable dialog windows.
+Shall be called only once.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initAutofill"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initAutofill</b>()
+					
+					</div>
+					<div class="description">
+						Autofill a template from an ID (ISBN, DOI, PMID)
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initBook"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initBook</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the book reference insertion tool.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initCategory"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initCategory</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the category link insertion tool.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initInfo"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initInfo</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the toolbar for debugging tools.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initInfobox"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initInfobox</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the infobox insertion tool.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".initLink"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>initLink</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the internal link insertion tool.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".loadBookSuggestions"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>loadBookSuggestions</b>()
+					
+					</div>
+					<div class="description">
+						Retrieve book suggestions. Also adds a book search form to the dialog window.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".loadCategorySuggestions"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>loadCategorySuggestions</b>()
+					
+					</div>
+					<div class="description">
+						Retrieve category suggestions.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".loadInfoboxSuggestions"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>loadInfoboxSuggestions</b>()
+					
+					</div>
+					<div class="description">
+						Retrieve infobox suggestions.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".loadLinkSuggestions"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>loadLinkSuggestions</b>()
+					
+					</div>
+					<div class="description">
+						Retrieve internal link suggestions.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".parse"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -822,16 +1724,16 @@ TODO move as much as possible to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>text</b>
+									<span class="light fixedFont">{string}</span> <b>text</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The wikitext fragment to be parsed.</dd>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{function(string)}</span> <b>callback</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The function to be called with the resulting HTML.</dd>
 							
 							</dl>
 						
@@ -839,6 +1741,13 @@ TODO move as much as possible to SztakipediaClient
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Requires:</dt>
+							
+								<dd>MediaWiki-API</dd>
+							
+							</dl>
 						
 						
 
@@ -853,8 +1762,6 @@ TODO move as much as possible to SztakipediaClient
 					</div>
 					<div class="description">
 						Parse template title and parameters from a Sztakipedia XHTML DOM element into an object.
-
-TODO move to SztakipediaClient
 						
 						
 					</div>
@@ -866,12 +1773,44 @@ TODO move to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>template</b>
+									<span class="light fixedFont">{jQuery}</span> <b>template</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The DOM element corresponding to the template.</dd>
 							
 							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".prevParseClick"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>prevParseClick</b>()
+					
+					</div>
+					<div class="description">
+						Click handler for template parsed preview
+						
+						
+					</div>
+					
+					
+					
 						
 						
 						
@@ -931,14 +1870,14 @@ TODO move to SztakipediaClient
 					<hr />
 				
 					<a name=".resetForm"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
 					<span class="light">SztakipediaTB.</span><b>resetForm</b>()
 					
 					</div>
 					<div class="description">
-						Resets form fields and previews
+						Resets form fields and previews.
 						
 						
 					</div>
@@ -959,7 +1898,7 @@ TODO move to SztakipediaClient
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">SztakipediaTB.</span><b>scrollTo</b>(scrollTo:, container:, speed)
+					<span class="light">SztakipediaTB.</span><b>scrollTo</b>(scrollTo, container, speed)
 					
 					</div>
 					<div class="description">
@@ -975,22 +1914,22 @@ TODO move to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>scrollTo:</b>
+									<span class="light fixedFont">{jQuery}</span> <b>scrollTo</b>
 									
 								</dt>
-								<dd>the element to view</dd>
+								<dd>The element to show.</dd>
 							
 								<dt>
-									<b>container:</b>
+									<span class="light fixedFont">{jQuery}</span> <b>container</b>
 									
 								</dt>
-								<dd>the ancestor element having a scrollbar</dd>
+								<dd>The ancestor element having a scrollbar.</dd>
 							
 								<dt>
-									<b>speed</b>
-									
+									<span class="light fixedFont">{string}</span> <b>speed</b>
+									<i>Optional</i>
 								</dt>
-								<dd></dd>
+								<dd>Animation speed 'fast' or 'slow'. Omit for no animation.</dd>
 							
 							</dl>
 						
@@ -1006,6 +1945,55 @@ TODO move to SztakipediaClient
 								<dd>http://stackoverflow.com/questions/2905867/how-to-scroll-to-specific-item-using-jquery</dd>
 							
 							</dl>
+						
+
+					<hr />
+				
+					<a name=".searchByInsertionStragtegy"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>searchByInsertionStragtegy</b>(insertionstrategies, text)
+					
+					</div>
+					<div class="description">
+						Search the target text field for a text range matched by the insertion strategies.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>insertionstrategies</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>text</b>
+									<i>Optional</i>
+								</dt>
+								<dd>the string to search, defaults to the textarea contents</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>Array A two-element array containing the start and end character positions.</dd>
+							
+							</dl>
+						
+						
 						
 
 					<hr />
@@ -1030,19 +2018,55 @@ TODO move to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>start</b>
+									<span class="light fixedFont">{number}</span> <b>start</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The first character position (inclusive).</dd>
 							
 								<dt>
-									<b>end</b>
+									<span class="light fixedFont">{number}</span> <b>end</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The last character position (exclusive).</dd>
 							
 								<dt>
-									<b>field</b>
+									<span class="light fixedFont">{Object}</span> <b>field</b>
+									<i>Optional</i>
+								</dt>
+								<dd>The textarea to select text in.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".setupBookSuggestions"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">SztakipediaTB.</span><b>setupBookSuggestions</b>(dialogs)
+					
+					</div>
+					<div class="description">
+						Produce HTML for the book suggestions dialog.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>dialogs</b>
 									
 								</dt>
 								<dd></dd>
@@ -1078,7 +2102,7 @@ TODO move to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dialogs</b>
+									<span class="light fixedFont">{Object}</span> <b>dialogs</b>
 									
 								</dt>
 								<dd></dd>
@@ -1098,11 +2122,11 @@ TODO move to SztakipediaClient
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">SztakipediaTB.</span><b>setupDialogs</b>(dialogs, sname, elem)
+					<span class="light">SztakipediaTB.</span><b>setupDialogs</b>(dialogs, sname, elementId)
 					
 					</div>
 					<div class="description">
-						Create HTML corresponding to a set of dialogs
+						Create HTML corresponding to a set of generic dialogs.
 						
 						
 					</div>
@@ -1114,22 +2138,22 @@ TODO move to SztakipediaClient
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dialogs</b>
+									<span class="light fixedFont">{Object}</span> <b>dialogs</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The list of dialogs.</dd>
 							
 								<dt>
-									<b>sname</b>
+									<span class="light fixedFont">{string}</span> <b>sname</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The template's short name.</dd>
 							
 								<dt>
-									<b>elem</b>
+									<span class="light fixedFont">{string}</span> <b>elementId</b>
 									
 								</dt>
-								<dd>the DOM element's id to place the HTML in, and to register event listeners for</dd>
+								<dd>The DOM element's id attribute to place the HTML in, and to register event listeners for.</dd>
 							
 							</dl>
 						
@@ -1188,7 +2212,7 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dialogs</b>
+									<span class="light fixedFont">{Object}</span> <b>dialogs</b>
 									
 								</dt>
 								<dd></dd>
@@ -1224,7 +2248,7 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>dialogs</b>
+									<span class="light fixedFont">{Object}</span> <b>dialogs</b>
 									
 								</dt>
 								<dd></dd>
@@ -1240,15 +2264,40 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 
 					<hr />
 				
-					<a name=".toDialog"> </a>
+					<a name=".showHideExtra"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
+					<span class="light">SztakipediaTB.</span><b>showHideExtra</b>()
+					
+					</div>
+					<div class="description">
+						Show/hide the extra fields in the dialog box
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".toDialog"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
 					<span class="light">SztakipediaTB.</span><b>toDialog</b>(tem)
 					
 					</div>
 					<div class="description">
-						Create a WikiEditor dialog from a SztakipediaTemplate object
+						Create a WikiEditor dialog from a <a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a> object.
 						
 						
 					</div>
@@ -1260,16 +2309,23 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>tem</b>
+									<span class="light fixedFont">{Object}</span> <b>tem</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The <a href="../symbols/sztakipediaTemplate.html">sztakipediaTemplate</a> object to create a dialog for.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> A WikiEditor-style dialog descriptor.</dd>
+							
+							</dl>
 						
 						
 						
@@ -1296,10 +2352,10 @@ Until the contents are loaded, its just a "Loading" placeholder for each section
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>callback</b>
+									<span class="light fixedFont">{function()}</span> <b>callback</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The function to be called on completion.</dd>
 							
 							</dl>
 						

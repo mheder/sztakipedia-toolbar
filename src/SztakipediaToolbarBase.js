@@ -1,3 +1,5 @@
+/* Copyright 2011 MTA SZTAKI - Licensed under: GNU General Public License v2.0 or later */
+
 // Global object
 if (typeof SztakipediaTB == 'undefined') {
 	SztakipediaTB = {
@@ -5,9 +7,7 @@ if (typeof SztakipediaTB == 'undefined') {
 		"Suggestions" : {},
 		"Options" : {}, // Global options
 		"UserOptions" : {}, // User options
-		"DefaultOptions" : {}, // Script defaults
-		"ErrorChecks" : {}
-	// Error check functions
+		"DefaultOptions" : {} // Script defaults
 	};
 	window['SztakipediaTB'] = SztakipediaTB; // for Closure
 }
@@ -47,7 +47,7 @@ var xmlEntity2ValueMap = {
 
 function decodeXml(string) {
 	return string.replace(/(&quot;|&lt;|&gt;|&amp;)/g, function(str, item) {
-		xmlEntity2ValueMap[item];
+		return xmlEntity2ValueMap[item];
 	});
 }
 
@@ -76,23 +76,63 @@ function adjustCssClassEmptiness() {
 	}
 }
 
-// Object for cite templates
+/**
+ * @class Object for cite templates. Stores the information needed to construct template filling dialog windows.
+ * @constructor Creates a template object, given its name and available fields.
+ * @param {string} templatename
+ * @param {string} shortform
+ * @param {Object} basicfields Basic fields of the template.
+ * @param {Object} [expandedfields] Extra fields of the template. Fields supplied here shall be optional and not present in basic fields.
+ * @private
+ */
 function sztakipediaTemplate(templatename, shortform, basicfields, expandedfields) {
 	//alert("New template: " + templatename);
-	// Properties
-	this.templatename = templatename; // The template name - "cite web", "cite book", etc.
-	this.shortform = shortform; // A short form, used for the dropdown box
-	this.basic = basicfields; // Basic fields - author, title, publisher...
-	// Less common - quote, archiveurl - should be everything the template supports minus the basic ones
-	this.extra = expandedfields;
 	
+	/* Properties */
+	/**
+	 * The template name - "cite web", "cite book", etc.
+	 * @type string
+	 */
+	this.templatename = templatename;
+	/**
+	 * A short form, used for the dropdown box.
+	 * @type string
+	 */
+	this.shortform = shortform;
+	/**
+	 * Basic fields (e.g., author, title, publisher...)
+	 * @type Object
+	 */
+	this.basic = basicfields;
+	
+	/**
+	 * Less common - quote, archiveurl - should be everything the template supports minus the basic ones
+	 * @type Object
+	 */
+	this.extra = expandedfields || null;
+	
+	/**
+	 * Whether the template is a citation template.
+	 * @type boolean
+	 */
 	this.refs = true;
 	
+	/**
+	 * Whether previews are allowed for this template.
+	 * Can be set to {@code false} for templates that do not generate output (e.g, PERSONDATA), or would generate too large HTML.
+	 * @type boolean
+	 */
 	this.preview = true;
 
 	// Add it to the list
 	SztakipediaTB.Templates[this.templatename] = this;
+	
 	// Methods
+	/**
+	 * Create a HTML fragment for a form with the given fields as inputs.
+	 * @param {Object} fields The fields to be used for creating input widgets.
+	 * @return {Object} The jQuery DOM element containing the HTML fragment.
+	 */
 	this.makeFormInner = function(fields) {
 		var i = 0;
 		var trs = new Array();
@@ -100,22 +140,28 @@ function sztakipediaTemplate(templatename, shortform, basicfields, expandedfield
 			var fieldobj = fields[i];
 			var field = fieldobj.field;
 			var ad = false;
+			var im;
 			if ($j.inArray(field, SztakipediaTB.getOption('autodate fields')) != -1) {
-				var im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png');
-				im.attr('alt', mw.usability.getMsg('sztakipedia-insert-date')).attr('title', mw.usability.getMsg('sztakipedia-insert-date'));
-				var ad = $j('<a />').attr('href', '#');
-				ad.append(im);
-				ad.attr('id', 'sztakipedia-date-' + SztakipediaTB.escStr(this.shortform) + '-' + field);
+				im = $j('<img />')
+					.attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nuvola_apps_date.svg/20px-Nuvola_apps_date.svg.png')
+					.attr('alt', mw.usability.getMsg('sztakipedia-insert-date'))
+					.attr('title', mw.usability.getMsg('sztakipedia-insert-date'));
+				ad = $j('<a/>')
+					.attr('href', '#')
+					.append(im)
+					.attr('id', 'sztakipedia-date-' + SztakipediaTB.escStr(this.shortform) + '-' + field);
 				$j('#sztakipedia-date-' + SztakipediaTB.escStr(this.shortform) + '-' + field).live('click', SztakipediaTB.fillAccessdate);
 			}
 
 			if (fieldobj.autofillid) {
 				var autotype = fieldobj.autofillid;
-				im = $j('<img />').attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/System-search.svg/18px-System-search.svg.png');
-				im.attr('alt', mw.usability.getMsg('sztakipedia-autofill-alt')).attr('title', mw.usability.getMsg('sztakipedia-autofill-alt'));
-				var ad = $j('<a />').attr('href', '#');
-				ad.append(im);
-				ad.attr('id', 'sztakipedia-auto-' + SztakipediaTB.escStr(this.shortform) + '-' + field + '-' + autotype);
+				im = $j('<img />')
+					.attr('src', 'http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/System-search.svg/18px-System-search.svg.png')
+					.attr('alt', mw.usability.getMsg('sztakipedia-autofill-alt')).attr('title', mw.usability.getMsg('sztakipedia-autofill-alt'));
+				ad = $j('<a />')
+					.attr('href', '#')
+					.append(im)
+					.attr('id', 'sztakipedia-auto-' + SztakipediaTB.escStr(this.shortform) + '-' + field + '-' + autotype);
 				$j('#sztakipedia-auto-' + SztakipediaTB.escStr(this.shortform) + '-' + field + '-' + autotype).live('click', SztakipediaTB.initAutofill);
 			}
 
@@ -164,29 +210,38 @@ function sztakipediaTemplate(templatename, shortform, basicfields, expandedfield
 
 	};
 
-	// gives a little bit of HTML so the open form can be identified
+	/**
+	 * Gives a little bit of HTML so the open form can be identified. 
+	 * Also required to interoperate with wikieditor, which checks for {@code $j(...).length == 0} to determine emptiness.
+	 * @return {Object} a jQuery DOM element
+	 */
 	this.getInitial = function() {
 		var hidden = $j('<input type="hidden" class="sztakipedia-template" />');
 		hidden.val(this.templatename);
 		return hidden;
 	};
 
-	// makes the form used in the dialog boxes
+	/**
+	 * Makes the form used in the dialog boxes.
+	 * @return {Object} a jQuery DOM element
+	 */
 	this.getForm = function() {
 		var main = $j("<div class='sztakipedia-form-container' />");
 		var form1 = $j('<table style="width:90%; background-color:transparent;" class="sztakipedia-basic-fields" />');
-		var i = 0;
+		var i;
 		var trs = this.makeFormInner(this.basic);
-		for ( var i = 0; i < trs.length; i++) {
+		for ( i = 0; i < trs.length; i++) {
 			form1.append(trs[i]);
 		}
 
-		var form2 = $j('<table style="width:100%; background-color:transparent; display:none" class="sztakipedia-extra-fields">');
-		trs = this.makeFormInner(this.extra);
-		for ( var i = 0; i < trs.length; i++) {
-			form2.append(trs[i]);
+		if (this.extra) {
+			var form2 = $j('<table style="width:100%; background-color:transparent; display:none" class="sztakipedia-extra-fields">');
+			trs = this.makeFormInner(this.extra);
+			for ( i = 0; i < trs.length; i++) {
+				form2.append(trs[i]);
+			}
+		  main.append(form1).append(form2);
 		}
-		main.append(form1).append(form2);
 
 		if (this.refs) {
 			var form3 = $j('<table style="width:95%; background-color:transparent;padding-top:1em" class="sztakipedia-other-fields">');
@@ -235,58 +290,5 @@ function sztakipediaTemplate(templatename, shortform, basicfields, expandedfield
 	};
 }
 
-/*
- * Class for error checks FIXME: DOCS OUT OF DATE type - type of error check -
- * current options: 'refcheck' - apply a function on each ref individually
- * function should accept a ref object, return a string 'reflist' - apply a
- * function on the entire ref list function should accept an array of ref
- * objects, return an array of strings 'search' - apply a function ro the page
- * text function should accept the page text as a string, return an array of
- * strings The strings returned by the function should be valid HTML
- * 
- * func - The function described above testname - Name of the error check, must
- * not contain spaces desc - A short description of the test
- */
-
-//function sztakipediaErrorCheck(obj) {
-//	this.obj = obj;
-//	SztakipediaTB.ErrorChecks[this.obj.testname] = this;
-//
-//	this.run = function() {
-//		var errors = [];
-//		switch (this.obj['type']) {
-//		case "refcheck":
-//			SztakipediaTB.loadRefs();
-//			for ( var i = 0; i < SztakipediaTB.mainRefList.length; i++) {
-//				var e = this.obj.func(SztakipediaTB.mainRefList[i]);
-//				if (e) {
-//					errors.push(e);
-//				}
-//			}
-//			break;
-//		case "reflist":
-//			SztakipediaTB.loadRefs();
-//			errors = this.obj.func(SztakipediaTB.mainRefList);
-//			break;
-//		case "search":
-//			var func = this.obj.func;
-//			SztakipediaTB.getPageText(function(text) {
-//				errors = func(text);
-//			});
-//			break;
-//		}
-//		return errors;
-//	};
-//
-//	this.getRow = function() {
-//		var row = $j("<li />");
-//		var check = $j("<input type='checkbox' name='sztakipedia-err-test' />");
-//		check.attr('value', this.obj.testname);
-//		var label = $j("<label />").html(mw.usability.getMsg(this.obj.desc));
-//		label.attr('for', this.obj.testname);
-//		row.append(check).append(' &ndash; ').append(label);
-//		return row;
-//	};
-//}
 
 $j('head').trigger('sztakipediatoolbarbase');

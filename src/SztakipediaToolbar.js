@@ -1478,7 +1478,8 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 											throw "Template dialog creation without HTML not implemented [template title: '" + s['template']['title'] +"']";
 										}
 									}
-									
+									var beginEnd = SztakipediaTB.searchByInsertionStragtegy(s['insertionstrategies']);
+									SztakipediaTB.selectRange(beginEnd[0], beginEnd[1]);
 									SztakipediaTB.getTarget().wikiEditor('openDialog', 'sztakipedia-dialog-' + template.shortform);
 									SztakipediaTB.setTemplateDialogFields(template.shortform, s['template']['params']);
 									
@@ -1703,7 +1704,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	};
 
 	/**
-	 * Search the target text field for a text range matched by the insertion strategies.
+	 * Find the text span to be replaced in the target text field given a set of insertion strategies.
 	 * @param {Object} insertionstrategies
 	 * @param {string} [text] the string to search, defaults to the textarea contents
 	 * @return Array A two-element array containing the start and end character positions.
@@ -1722,6 +1723,23 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 				throw "No match!";
 			start = groups.index + groups[1].length;
 			end = start + groups[2].length;
+		} else if ('characterpositionbased' in insertionstrategies) {
+			var cs = insertionstrategies['characterpositionbased'];
+			start = cs['begin'];
+			end = cs['end'];
+		} else if ('absolute' in insertionstrategies) {
+			var cs = insertionstrategies['absolute'];
+			if (cs['where'] === 'end') {
+				start = text.length;
+				end = start;
+			} else if (cs['where'] === 'begin') {
+				start = 0;
+				end = 0;
+			} else {
+				throw "Unrecognized absolute position: " + cs['where'];
+			}
+		} else {
+			throw "No supported insertion policy found among " + insertionstrategies.length + ' (e.g., ' + insertionstrategies[0] +')';
 		}
 		// TODO implement other strategies too
 		if (start < 0)

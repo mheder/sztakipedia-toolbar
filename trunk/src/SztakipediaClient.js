@@ -96,7 +96,7 @@ SztakipediaClient.parseXML = function(data) {
 
 /**
  * Read an XML elements attribute list into a hash.
- * @param {Object} elem The DOM element.
+ * @param {Node} elem The DOM element.
  * @return Object
  */
 SztakipediaClient.xmlAttributesAsHash = function(elem) {
@@ -112,7 +112,7 @@ SztakipediaClient.xmlAttributesAsHash = function(elem) {
 
 /**
  * Read an HTML elements attribute list into a hash.
- * @param {Object} elem The DOM element.
+ * @param {Node} elem The DOM element.
  * @return Object
  */
 SztakipediaClient.htmlAttributesAsHash = function(elem) {
@@ -129,8 +129,24 @@ SztakipediaClient.htmlAttributesAsHash = function(elem) {
 };
 
 /**
+ * Get the string representation of a DOM XML node.
+ * @see adapted from http://forum.jquery.com/topic/jquery-serializing-xml#14737000000169757
+ * @param {Node} elem The DOM element.
+ */
+SztakipediaClient.serializeXML = function(elem) {
+    var out;
+    if (typeof XMLSerializer === 'function') { // modern browsers
+        var xs = new XMLSerializer();
+        out = xs.serializeToString(elem);
+    } else if (elem && elem.xml !== 'undefined') { // IE
+        out = elem.xml;
+    }
+    return out;
+};
+
+/**
  * Concatenate text nodes inside the element.
- * @param {Object} elem The DOM element.
+ * @param {Node} elem The DOM element.
  * @return string
  */
 SztakipediaClient.extractTextRecursive = function(elem) {
@@ -152,7 +168,7 @@ SztakipediaClient.extractTextRecursive = function(elem) {
 
 /**
  * Concatenate text nodes inside the element, up to immediate child elements.
- * @param {Object} elem The DOM element. 
+ * @param {Node} elem The DOM element. 
  * @return string
  */
 SztakipediaClient.extractTextNonRecursive = function(elem) {
@@ -231,7 +247,7 @@ SztakipediaClient.doGet = function(params, callback) {
 		'jsonp' : 'callback',
 		'success' : function(data) {
 
-			alert(JSON.stringify(data, null, 2));
+			//alert(JSON.stringify(data, null, 2));
 
 		
 			//alert("RAW: " + data);
@@ -297,8 +313,9 @@ SztakipediaClient.parseDialogBuilders = function(xml) {
  * @private
  */
 SztakipediaClient.parseDialog = function(xml) {
-	if (typeof xml === 'undefined')
-		return undefined;
+	if (typeof xml === 'undefined' || xml === null)
+		throw "Undefined";
+	
 	var list = {};
 	var builder = xml.documentElement.getAttribute('builder');
 	var elems = xml.getElementsByTagName('Dialog');
@@ -352,6 +369,17 @@ SztakipediaClient.parseDialog = function(xml) {
 					case 'CharacterPositionBased':
 						// TODO convert strings (e.g. {"begin" : "4"}) to integer ({"begin" : 4}) 
 						suggestion['insertionstrategies']['characterpositionbased'] = SztakipediaClient.xmlAttributesAsHash(iselem);
+						break;
+					case 'AbsolutePosition':
+						suggestion['insertionstrategies']['absolute'] = SztakipediaClient.xmlAttributesAsHash(iselem);
+						break;
+					default:
+						if (iselem.nodeType === Node.ELEMENT_NODE) {				
+				 			if (SztakipediaClient.getOption('debug')) {
+				 				alert("Unrecognized insertion policy: " + iselem.tagName + "\n" + SztakipediaClient.serializeXML(iselem));
+								throw "Unrecognized insertion policy: " + iselem.tagName;
+				 			}
+						}
 						break;
 				}
 			}

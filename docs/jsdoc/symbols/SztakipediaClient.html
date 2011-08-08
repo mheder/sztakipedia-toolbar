@@ -339,7 +339,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">SztakipediaClient.<b><a href="../symbols/SztakipediaClient.html#.doGet">doGet</a></b>(params, callback)
 								</div>
-								<div class="description">Perform a GET request to the API endpoint (possibly via a JSONP proxy).</div>
+								<div class="description">Perform a GET request to the API endpoint.</div>
 							</td>
 						</tr>
 					
@@ -764,7 +764,17 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						Perform a GET request to the API endpoint (possibly via a JSONP proxy).
+						Perform a GET request to the API endpoint.
+
+For JSONP requests, the API response always returns a HTTP 200 OK status, while indicating actual status code (and probably error message) in the payload as follows.
+For successful requests:
+<blockquote>
+<code>json123(['...content...', 200])</code>
+</blockquote>
+For unsuccessful requests:
+<blockquote>
+<code>json123([null, 5xx, '...error...'])</code>
+</blockquote>
 						
 						
 					</div>

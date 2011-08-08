@@ -60,6 +60,7 @@
 			<externs dir="${basedir}/src/extern">
 				<file name="jquery-1.6.extern.js"/>
 				<file name="mediawiki.extern.js"/>
+				<file name="json2.extern.js"/>
 			</externs>
 
 			<!--	

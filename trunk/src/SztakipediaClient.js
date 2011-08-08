@@ -208,7 +208,17 @@ SztakipediaClient.queryUrl = function(params) {
 };
 
 /**
- * Perform a GET request to the API endpoint (possibly via a JSONP proxy).
+ * Perform a GET request to the API endpoint.
+ * 
+ * For JSONP requests, the API response always returns a HTTP 200 OK status, while indicating actual status code (and probably error message) in the payload as follows.
+ * For successful requests:
+ * <blockquote>
+ * <code>json123(['...content...', 200])</code>
+ * </blockquote>
+ * For unsuccessful requests:
+ * <blockquote>
+ * <code>json123([null, 5xx, '...error...'])</code>
+ * </blockquote>
  * @param {Object} params The HTTP request parameters to be passed.
  * @param {function((string|undefined))} [callback] The function to be called with the HTTP response content {@link String}, or undefined on failure.
  * @private
@@ -220,13 +230,23 @@ SztakipediaClient.doGet = function(params, callback) {
 		'dataType' : 'jsonp',
 		'jsonp' : 'callback',
 		'success' : function(data) {
+
+			alert(JSON.stringify(data, null, 2));
+
+		
 			//alert("RAW: " + data);
-		callback(data);
-	},
-	'error' : function(xhr, textStatus, httpErrorThrown) {
-		// alert('ERROR: while performing AJAX call. (status: ' + textStatus + ', HTTP error: ' + httpErrorThrown + ', URL: ' + url + ")");
-		callback(undefined);
-	}
+			var content = data[0], 
+				status = data[1], 
+				error = (data.length > 2 ? data[2] : undefined);
+			
+			if (!(typeof error == 'undefined' || error == null)) {
+				if (SztakipediaClient.getOption('debug'))
+					alert('HTTP error ' + status + ' while retrieving "' + url + '": ' + JSON.stringify(data, null, 2));
+				
+				throw 'HTTP error ' + status + ' while retrieving "' + url + '"';
+			}
+			callback(content);
+		}
 	});
 };
 

@@ -28,7 +28,7 @@ if (typeof SztakipediaClient == 'undefined') {
  * @type Object
  */
 SztakipediaClient.DefaultOptions = {
-	'api url' : "http://diadev.sztaki.hu/SWEA-Server/REST/sztakipedia", // The RESTful API endpoint
+	'api url' : "http://pedia.sztaki.hu/SWEA-Server/REST/sztakipedia", // The RESTful API endpoint
 	//	'json proxy url' : "http://localhost:8080/json-proxy/", // JSONP proxy for cross-site requests
 	'debug' : true
 // whether to produce debugging output
@@ -366,6 +366,10 @@ SztakipediaClient.parseDialog = function(xml) {
 							'after' : SztakipediaClient.extractTextNonRecursive(iselem.getElementsByTagName('ContentAfter')[0])
 						};
 						break;
+					case 'SourcePosition':
+						// TODO convert strings (e.g. {"begin" : "4"}) to integer ({"begin" : 4}) 
+						suggestion['insertionstrategies']['sourceposition'] = SztakipediaClient.xmlAttributesAsHash(iselem);
+						break;
 					case 'CharacterPositionBased':
 						// TODO convert strings (e.g. {"begin" : "4"}) to integer ({"begin" : 4}) 
 						suggestion['insertionstrategies']['characterpositionbased'] = SztakipediaClient.xmlAttributesAsHash(iselem);
@@ -376,7 +380,7 @@ SztakipediaClient.parseDialog = function(xml) {
 					default:
 						if (iselem.nodeType === Node.ELEMENT_NODE) {				
 				 			if (SztakipediaClient.getOption('debug')) {
-				 				alert("Unrecognized insertion policy: " + iselem.tagName + "\n" + SztakipediaClient.serializeXML(iselem));
+				 				alert("Unrecognized insertion policy in init: " + iselem.tagName + "\n" + SztakipediaClient.serializeXML(iselem));
 								throw "Unrecognized insertion policy: " + iselem.tagName;
 				 			}
 						}

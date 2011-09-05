@@ -1,4 +1,4 @@
-/* Copyright 2011 MTA SZTAKI - Licensed under: GNU General Public License v2.0 or later */
+
 
 // Global object
 if (typeof SztakipediaTB == 'undefined') {
@@ -114,7 +114,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		"autoparse" : false,
 		"expandtemplates" : false,
 		"debug" : false,
-		"basedir" : "http://pediadev.sztaki.hu/~illes/SztakipediaToolbar/"
+		"basedir" : "http://pedia.sztaki.hu/SztakipediaToolbar/"
 	};
 	SztakipediaTB['DefaultOptions'] = SztakipediaTB.DefaultOptions; // export name for Closure 
 	
@@ -1492,7 +1492,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 									SztakipediaTB.replaceRange(beginEnd[0], beginEnd[1], s['content']);
 									
 									// Highlight newly inserted replacement string
-									SztakipediaTB.selectRange(beginEnd[0], beginEnd[0] + s['content'].length);
+									SztakipediaTB.selectRange(beginEnd[0], parseInt(beginEnd[0])+s['content'].length);
 								}
 							};
 						})(dialogId, suggestionId));
@@ -1714,8 +1714,11 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			text = SztakipediaTB.getTarget().val() + '';
 		var start = -1;
 		var end = -1;
-		if ('contextsensitive' in insertionstrategies)
-		{
+		if ('sourceposition' in insertionstrategies) {
+			var cs = insertionstrategies['sourceposition'];
+			start = cs['begin'];
+                        end = cs['end'];
+		} else if ('contextsensitive' in insertionstrategies) {
 			var cs = insertionstrategies['contextsensitive'];
 			var re = new RegExp('(' + SztakipediaTB.escapeRegex(cs['before']) +')(' + SztakipediaTB.escapeRegex(cs['replace']) + ')(' + SztakipediaTB.escapeRegex(cs['after']) +')', "");
 			var groups = re.exec(text);

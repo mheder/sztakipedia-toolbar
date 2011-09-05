@@ -38,7 +38,7 @@ SztakipediaTB.Options = {
 "modal" : true,
 "autoparse" : false,
 "expandtemplates" : false,
-"basedir" : "http://pediadev.sztaki.hu/~illes/SztakipediaToolbar/"
+"basedir" : "http://pedia.sztaki.hu/SztakipediaToolbar/"
 };
 /*
 // Cite template definitions

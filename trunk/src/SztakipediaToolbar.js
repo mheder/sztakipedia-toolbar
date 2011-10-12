@@ -94,6 +94,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	appendCSS(".ui-dialog-content .sztakipedia-suggestion-image-container {" + "padding-right: 0.2em;" + "}");
 	
 	appendCSS(".ui-dialog-content .sztakipedia-suggestion-text {" + "color: #0645AD;" + "font-size: 120%;" + "}");
+	appendCSS(".ui-dialog-content .sztakipedia-suggestion-details {" + "color: #0E774A;" + "display: block;" + "font-size: 75%;" + "}");
 	appendCSS(".ui-dialog-content .sztakipedia-suggestion-meta {" + "color: #0E774A;" + "display: block;" + "}");
 	appendCSS(".ui-dialog-content .sztakipedia-suggestion-snippet {" + "color: black;" + "display: block;" + "padding-top: 0.1em;" + "}");
 	appendCSS(".ui-dialog-content .sztakipedia-suggestion-snippet b {" + "background-color: #FFCCCC;" + "padding: 0em 0.2em;" + "}");
@@ -588,6 +589,56 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	};
 
 	/**
+	 * Initialize Sztaki logo
+	 * @private
+	 */
+	SztakipediaTB.initLogo = function() {
+
+		// Add dialog
+		var logoDialog = {
+			'sztakipedia-toolbar-dialog-logo' : {
+				titleMsg : 'sztakipedia-dialog-logo-title',
+				id : 'sztakipediatoolbar-dialog-logo',
+				resizeme : false,
+				init : function() {
+				},
+				html : '<div id="sztakipediatoolbar-dialog-logo-content" class="sztakipedia-dialogs">' 
+                                        + '<span> About sztakipedia </span>'
+					+ '</div>',
+				dialog : {
+					width : 550,
+					open : function() {
+						SztakipediaTB.loadLinkSuggestions();
+					},
+					buttons : {
+						'wikieditor-toolbar-tool-link-cancel' : function() {
+							$j(this).dialog('close');
+						}
+					}
+				}
+			}
+		};
+		SztakipediaTB.getTarget().wikiEditor('addDialog', logoDialog);
+
+		// To add a button to an existing toolbar group:        
+		SztakipediaTB.getTarget().wikiEditor('addToToolbar', {
+			'section' : 'sztakipedias',
+			'group' : 'providedby',
+			'tools' : {
+				'logo' : {
+					label : 'About Sztakipedia', // FIXME use labelMsg for a localized label
+					type : 'button',
+					icon : 'http://pedia.sztaki.hu/szp-images/logo-for-toolbar.png',
+					action : {
+						type : 'dialog',
+						module : 'sztakipedia-toolbar-dialog-logo'
+					}
+				}
+			}
+		});
+	};
+
+	/**
 	 * Initialize the toolbar. Adds a new toolbar section with tools, creates precomputable dialog windows.
 	 * Shall be called only once.  
 	 * @private
@@ -612,6 +663,9 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 					groups : {
 								'suggestions' : {
 									'label' : 'Suggestions' // FIXME use labelMsg for a localized label
+						},
+								'providedby'  : {
+									'label' : 'Provided by MTA SZTAKI' //FIXME use labelMsg
 						}
 					}						
 				}
@@ -744,6 +798,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.initCategory();		
 		SztakipediaTB.initInfobox();
 		SztakipediaTB.initBook();
+		SztakipediaTB.initLogo();
 		
 		if (SztakipediaTB.getOption('debug')) {		
 			SztakipediaTB.initInfo();
@@ -1341,6 +1396,14 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 						.append($j('<span/>')
 							.addClass('sztakipedia-suggestion-text')
 							.text(suggestion['text']));
+
+	
+					if ('details' in suggestion) {
+						var details = $j('<span/>')
+							.addClass('sztakipedia-suggestion-details')
+							.text(suggestion['details']);
+						container.append(details);
+					}
 
 					if ('meta' in suggestion) {
 						var url = $j('<span/>')

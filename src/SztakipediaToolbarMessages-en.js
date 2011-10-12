@@ -120,7 +120,10 @@ mw.usability.addMessages( {
 'sztakipedia-info-dialogbuilders-intro' : 'Available dialogs:',
 
 'sztakipedia-link-suggestions-intro' : 'The following terms may be linked:',
+
 'sztakipedia-dialog-link-title' : 'Internal link suggestions',
+'sztakipedia-dialog-logo-title' : 'About Sztakipedia',
+
 'sztakipedia-search-form-submit' : 'Search',
 
 

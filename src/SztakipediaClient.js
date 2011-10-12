@@ -332,11 +332,13 @@ SztakipediaClient.parseDialog = function(xml) {
 
 			var suggestion = SztakipediaClient.xmlAttributesAsHash(suggestionelem);
 			suggestion['text'] = SztakipediaClient.extractTextNonRecursive(suggestionelem.getElementsByTagName('Text')[0]);
-			if (suggestionelem.getElementsByTagName('SuggestionURL').length) {
-				var url = SztakipediaClient.extractTextNonRecursive(suggestionelem.getElementsByTagName('SuggestionURL')[0]);
-				if (url)
-					suggestion['url'] = url;
+
+			if (suggestionelem.getElementsByTagName('Details').length) {
+				var details = SztakipediaClient.extractTextNonRecursive(suggestionelem.getElementsByTagName('Details')[0]);
+				if (details)
+					suggestion['details'] = details;
 			}
+
 			if (suggestionelem.getElementsByTagName('Image').length) {
 				suggestion['image'] = SztakipediaClient.xmlAttributesAsHash(suggestionelem.getElementsByTagName('FullResolution')[0]);
 				suggestion['thumbnail'] = SztakipediaClient.xmlAttributesAsHash(suggestionelem.getElementsByTagName('Thumbnail')[0]);

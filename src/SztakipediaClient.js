@@ -471,7 +471,7 @@ SztakipediaClient.queryDialogBuilders = function(callback) {
  * @return string
  * 
  */
-SztakipediaClient.newSession = function(callback) {
+SztakipediaClient.newSession = function(callback, user) {
 	// check if there is a session open
 	if (typeof SztakipediaClient.sessionid != 'undefined') {
 		alert('WARNING: A session is still open, continuing anyway.');
@@ -481,7 +481,8 @@ SztakipediaClient.newSession = function(callback) {
 	}
 
 	SztakipediaClient.doGet( {
-		'action' : 'login'
+		'action' : 'login',
+		'user' : user
 	}, function(data) {
 		// Store session ID for future requests
 			var sessionid = SztakipediaClient.parseSessionId(SztakipediaClient.parseXML(data));

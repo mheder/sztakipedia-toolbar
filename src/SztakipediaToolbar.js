@@ -115,7 +115,8 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		"autoparse" : false,
 		"expandtemplates" : false,
 		"debug" : false,
-		"basedir" : "http://pedia.sztaki.hu/SztakipediaToolbar/"
+		"basedir" : "http://pedia.sztaki.hu/SztakipediaToolbar/",
+		"anonymous" : true
 	};
 	SztakipediaTB['DefaultOptions'] = SztakipediaTB.DefaultOptions; // export name for Closure 
 	
@@ -1665,7 +1666,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			SztakipediaClient.newSession(function(sessionid) {
 				// TODO handle error (sessionid==undefined)
 					SztakipediaTB.updateRemoteContent(callback); // recurse
-				});
+				}, (SztakipediaTB.getOption('anonymous') ? '' : wgUser));
 			return;
 		}
 

@@ -59,9 +59,6 @@ if (typeof SztakipediaTB == 'undefined') {
 		
 }
 
-//// JsonML (JSON => XML DOM) FIXME HACK
-//importScriptURI('http://pediadev.sztaki.hu/~illes/SztakipediaToolbar/JsonML2.js');
-
 // only load on edit, unless its a user JS/CSS page
 if ((wgAction == 'edit' || wgAction == 'submit') 
 		&& !((wgNamespaceNumber == 2 || wgNamespaceNumber == 4) 
@@ -483,6 +480,61 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		});
 	};			
 
+
+	/**
+	 * Initialize the spotlight insertion tool.
+	 * @private
+	 */
+	SztakipediaTB.initSpotlight = function() {
+
+		// Add dialog
+		var spotlightDialog = {
+			'sztakipedia-toolbar-dialog-spotlight' : {
+				titleMsg : 'sztakipedia-dialog-spotlight-title',
+				id : 'sztakipediatoolbar-dialog-spotlight',
+				resizeme : false,
+				init : function() {
+				},
+				html : '<div id="sztakipediatoolbar-dialog-spotlight-content" class="sztakipedia-dialogs">' 
+					+ '<div id="sztakipedia-dialog-spotlight-loading">' 
+					+ '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' 
+					+ '&nbsp;' + SztakipediaTB.getMsgPlaceholder('sztakipedia-loading') + '</div>'
+					+ '</div>',
+				dialog : {
+					width : 550,
+					open : function() {
+						SztakipediaTB.loadSpotlightSuggestions();
+					},
+					buttons : {
+						'wikieditor-toolbar-tool-spotlight-cancel' : function() {
+							$j(this).dialog('close');
+						}
+					}
+				}
+			}
+		};
+		SztakipediaTB.getTarget().wikiEditor('addDialog', spotlightDialog);
+
+		SztakipediaTB.getTarget().wikiEditor('addToToolbar', {
+			'section' : 'sztakipedias',
+			'group' : 'suggestions',
+			'tools' : {
+				'spotlight' : {
+					label : 'DBPedia Spotlight', // FIXME use labelMsg for a localized label
+					type : 'button',
+					icon : 'http://diadev.sztaki.hu/szp-images/spotlight.png',
+					action : {
+						type : 'dialog',
+						module : 'sztakipedia-toolbar-dialog-spotlight'
+					}
+				}
+			}
+		});
+	};
+
+
+
+
 	/**
 	 * Initialize the toolbar for debugging tools.
 	 * @private
@@ -799,6 +851,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		SztakipediaTB.initCategory();		
 		SztakipediaTB.initInfobox();
 		SztakipediaTB.initBook();
+		SztakipediaTB.initSpotlight();
 		SztakipediaTB.initLogo();
 		
 		if (SztakipediaTB.getOption('debug')) {		
@@ -966,6 +1019,17 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	SztakipediaTB.loadInfoboxSuggestions = function() {
 		SztakipediaTB.updateRemoteContent(function() {
 			SztakipediaClient.buildDialogs(SztakipediaTB.setupInfoboxSuggestions, SztakipediaTB.token, 'infoboxprediction');
+		});
+	};
+
+
+	/**
+	 * Retrieve internal link suggestions.
+	 * @private
+	 */
+	SztakipediaTB.loadSpotlightSuggestions = function() {
+		SztakipediaTB.updateRemoteContent(function() {
+			SztakipediaClient.buildDialogs(SztakipediaTB.setupSpotlightSuggestions, SztakipediaTB.token, 'spotlight');
 		});
 	};
 	
@@ -1337,6 +1401,42 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			}
 		}
 		SztakipediaTB.setupDialogs(dialogs, 'bookprediction', 'sztakipediatoolbar-dialog-bookprediction-content');
+	};
+
+
+	/**
+	 * Produce HTML for the spotlight suggestions dialog.
+	 * @param {Object} dialogs
+	 */
+	SztakipediaTB.setupSpotlightSuggestions = function(dialogs) {
+		
+		// FIXME some hacks to provide as-of-yet missing suggestion attributes
+		for ( var dialogId in dialogs) {
+			var dialog = dialogs[dialogId];
+			for ( var suggestionId in dialog['suggestions']) {
+				var suggestion = dialog['suggestions'][suggestionId];
+				
+				// FIXME hack to populate missing URL, remove after API provides URLs
+				if (!('url' in suggestion)) {
+					var capitaliseFirstLetter = function (string) {
+					    return string.charAt(0).toUpperCase() + string.slice(1);
+					};
+
+					suggestion['url'] = 'http://en.wikipedia.org/wiki/' + capitaliseFirstLetter(suggestion['essence']);
+					suggestion['meta'] = capitaliseFirstLetter(suggestion['essence']);
+				}
+				
+				// FIXME hack to populate missing thumbnail, remove after API provides thumbnails
+				if (!('thumbnail' in suggestion)) {
+					suggestion['thumbnail'] = {
+							'url' : 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No-Book.svg/80px-No-Book.svg.png',
+							'width' : 80,
+							'height' : 96 };
+				}
+			}
+		}
+		SztakipediaTB.setupDialogs(dialogs, 'spotlight', 'sztakipediatoolbar-dialog-spotlight-content');
+		
 	};
 	
 	/**

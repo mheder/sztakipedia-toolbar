@@ -123,7 +123,8 @@ mw.usability.addMessages( {
 
 'sztakipedia-dialog-link-title' : 'Internal link suggestions',
 'sztakipedia-dialog-logo-title' : 'About Sztakipedia',
-
+'sztakipedia-dialog-spotlight-title' : 'Spotlight Suggestions',
+'wikieditor-toolbar-tool-spotlight-cancel' : 'Cancel',
 'sztakipedia-search-form-submit' : 'Search',
 
 

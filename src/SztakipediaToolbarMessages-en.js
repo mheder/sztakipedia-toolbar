@@ -3,6 +3,19 @@
 // All user-facing messages
 // TODO: Document usage
 mw.usability.addMessages( { 
+
+//Sztakipedia Status messages
+'sztakipedia-devel-status' : 'Status: alpha testing',
+'sztakipedia-devel-status-details' : 'Status: alpha testing details',
+//'sztakipedia-devel-status-icon' : 'http://pedia.sztaki.hu/szp-images/status_warning.png',
+//'sztakipedia-devel-status-icon' : 'http://pedia.sztaki.hu/szp-images/status_nothing.png',
+'sztakipedia-devel-status-icon' : 'http://pedia.sztaki.hu/szp-images/status_info.png',
+
+
+//About sztakipedia
+'sztakipedia-about' : 'About sztakipedia',
+
+'sztakipedia-dialog-status-title' : 'Sztakipedia development status',
 'sztakipedia-section-label' : 'Sztakipedia',
 
 // TODO from CiteTB                          
@@ -123,7 +136,7 @@ mw.usability.addMessages( {
 
 'sztakipedia-dialog-link-title' : 'Internal link suggestions',
 'sztakipedia-dialog-logo-title' : 'About Sztakipedia',
-'sztakipedia-dialog-spotlight-title' : 'Spotlight Suggestions',
+'sztakipedia-dialog-spotlight-title' : 'Link suggestions by Sztakipedia and DBpedia',
 'wikieditor-toolbar-tool-spotlight-cancel' : 'Cancel',
 'sztakipedia-search-form-submit' : 'Search',
 
@@ -135,6 +148,7 @@ mw.usability.addMessages( {
 //'sztakipedia-infobox-suggestions-intro' : 'The following categories could be relevant:',
 'sztakipedia-dialog-infobox-title' : 'Infobox suggestions',
 'sztakipedia-no-infobox-suggestions' : 'No suggestions.',
+'sztakipedia-no-bookprediction-suggestions' : 'No results.',
 
 // actions
 'sztakipedia-reject' : 'Dismiss',

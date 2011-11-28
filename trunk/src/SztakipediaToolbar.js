@@ -71,7 +71,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	appendCSS(".sztakipedia-ref-preview, .sztakipedia-preview-parsed {" + "padding: 0em 1em;" + "}");
 	appendCSS(".ui-widget {" + "font-size: 0.75em;" + "}");	
 	appendCSS(".ui-dialog {" + "max-height: 90%;" + "}");	
-	appendCSS(".ui-dialog-content {" + "overflow: hidden;" + "}");
+	appendCSS(".ui-dialog-content {" + "overflow: auto;" + "}");
 	appendCSS(".ui-dialog-content input {" + "padding:4px 2px;" + "border:solid 1px #aacfe4;" + "}");
 	appendCSS(".ui-dialog-content .sztakipedia-info-id {" + "font-weight: bold;" + "}");
 	appendCSS(".ui-dialog-content .sztakipedia-dialogs, .sztakipedia-form-container {" + "display: block;" + "height: 350px;" + "overflow: auto;" + "margin: 2px;" + "}");
@@ -113,7 +113,8 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		"expandtemplates" : false,
 		"debug" : false,
 		"basedir" : "http://pedia.sztaki.hu/SztakipediaToolbar/",
-		"anonymous" : true
+		"usage_collect_off" : false,
+		"salt" : "XVGRlFUjFc2B2rn98zfwqLYXrctL1JphpiSILDY"
 	};
 	SztakipediaTB['DefaultOptions'] = SztakipediaTB.DefaultOptions; // export name for Closure 
 	
@@ -388,8 +389,12 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 				resizeme : false,
 				init : function() {
 				},
-				html : '<div id="sztakipedia-dialog-category-loading">' + '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' + '&nbsp;'
-						+ mw.usability.getMsg('sztakipedia-loading') + '</div>',
+				html : '<div id="sztakipediatoolbar-dialog-category-content" class="sztakipedia-dialogs">'
+						+ '<div id="sztakipedia-dialog-category-loading" >' 
+						+ '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' 
+						+ '&nbsp;'
+						+ mw.usability.getMsg('sztakipedia-loading') 
+						+ '</div></div>',
 				dialog : {
 					width : 550,
 					open : function() {
@@ -522,7 +527,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 				'spotlight' : {
 					label : 'DBPedia Spotlight', // FIXME use labelMsg for a localized label
 					type : 'button',
-					icon : 'http://diadev.sztaki.hu/szp-images/spotlight.png',
+					icon : 'http://pedia.sztaki.hu/szp-images/spotlight.png',
 					action : {
 						type : 'dialog',
 						module : 'sztakipedia-toolbar-dialog-spotlight'
@@ -656,7 +661,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 				init : function() {
 				},
 				html : '<div id="sztakipediatoolbar-dialog-logo-content" class="sztakipedia-dialogs">' 
-                                        + '<span> About sztakipedia </span>'
+                                        + '<span>'+mw.usability.getMsg('sztakipedia-about')+'</span>'
 					+ '</div>',
 				dialog : {
 					width : 550,
@@ -673,6 +678,34 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		};
 		SztakipediaTB.getTarget().wikiEditor('addDialog', logoDialog);
 
+		// Add dialog
+		var logoDialog = {
+			'sztakipedia-toolbar-dialog-status' : {
+				titleMsg : 'sztakipedia-dialog-status-title',
+				id : 'sztakipediatoolbar-dialog-status',
+				resizeme : false,
+				init : function() {
+				},
+				html : '<div id="sztakipediatoolbar-dialog-logo-content" class="sztakipedia-dialogs">' 
+                                        + '<span>' +mw.usability.getMsg('sztakipedia-devel-status-details')+ '</span>'
+					+ '</div>',
+				dialog : {
+					width : 550,
+					open : function() {
+						SztakipediaTB.loadLinkSuggestions();
+					},
+					buttons : {
+						'wikieditor-toolbar-tool-link-cancel' : function() {
+							$j(this).dialog('close');
+						}
+					}
+				}
+			}
+		};
+		SztakipediaTB.getTarget().wikiEditor('addDialog', logoDialog);
+
+
+
 		// To add a button to an existing toolbar group:        
 		SztakipediaTB.getTarget().wikiEditor('addToToolbar', {
 			'section' : 'sztakipedias',
@@ -685,6 +718,22 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 					action : {
 						type : 'dialog',
 						module : 'sztakipedia-toolbar-dialog-logo'
+					}
+				}
+			}
+		});
+		// To add a button to an existing toolbar group:        
+		SztakipediaTB.getTarget().wikiEditor('addToToolbar', {
+			'section' : 'sztakipedias',
+			'group' : 'szpstatus',
+			'tools' : {
+				'logo' : {
+					label : mw.usability.getMsg('sztakipedia-devel-status'), // FIXME use labelMsg for a localized label
+					type : 'button',
+					icon : mw.usability.getMsg('sztakipedia-devel-status-icon'),
+					action : {
+						type : 'dialog',
+						module : 'sztakipedia-toolbar-dialog-status'
 					}
 				}
 			}
@@ -706,6 +755,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 //		alert('init');
 		
 		importScriptURI( SztakipediaTB.getOption('basedir') + 'SztakipediaClient.js');
+		importScriptURI( SztakipediaTB.getOption('basedir') + 'extern/webtoolkit.sha1.js');
 		
 
 		var refsection = {
@@ -717,8 +767,11 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 								'suggestions' : {
 									'label' : 'Suggestions' // FIXME use labelMsg for a localized label
 						},
+								'szpstatus' : {
+ 								 	'label': mw.usability.getMsg('sztakipedia-devel-status') 
+						},
 								'providedby'  : {
-									'label' : 'Provided by MTA SZTAKI' //FIXME use labelMsg
+									'label' : 'MTA SZTAKI' //FIXME use labelMsg
 						}
 					}						
 				}
@@ -847,7 +900,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		}
 
 		// add suggestion tools
-		SztakipediaTB.initLink();		
+//		SztakipediaTB.initLink();		
 		SztakipediaTB.initCategory();		
 		SztakipediaTB.initInfobox();
 		SztakipediaTB.initBook();
@@ -1354,7 +1407,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 	 * @param {Object} dialogs
 	 */
 	SztakipediaTB.setupCategorySuggestions = function(dialogs) {
-		SztakipediaTB.setupDialogs(dialogs, 'category', 'sztakipediatoolbar-dialog-category');
+		SztakipediaTB.setupDialogs(dialogs, 'category', 'sztakipediatoolbar-dialog-category-content');
 	};
 	
 	/**
@@ -1454,6 +1507,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 		elem.html(stuff);
 		
 		if (dialogs.length == 0) {
+			alert('zero results');
 			// TODO also check number of suggestions, there may be 0
 			stuff.text(SztakipediaTB.getMsgPlaceholder('sztakipedia-no-' + sname + '-suggestions'));
 		}
@@ -1766,7 +1820,7 @@ if ((wgAction == 'edit' || wgAction == 'submit')
 			SztakipediaClient.newSession(function(sessionid) {
 				// TODO handle error (sessionid==undefined)
 					SztakipediaTB.updateRemoteContent(callback); // recurse
-				}, (SztakipediaTB.getOption('anonymous') ? '' : wgUser));
+				}, (SztakipediaTB.getOption('usage_collect_off') ? '' : SHA1(wgUserName+SztakipediaTB.getOption('salt'))));
 			return;
 		}
 

@@ -256,8 +256,10 @@ SztakipediaClient.doGet = function(params, callback) {
 				error = (data.length > 2 ? data[2] : undefined);
 			
 			if (!(typeof error == 'undefined' || error == null)) {
-				if (SztakipediaClient.getOption('debug'))
-					alert('HTTP error ' + status + ' while retrieving "' + url + '": ' + JSON.stringify(data, null, 2));
+				if (SztakipediaClient.getOption('debug')) {
+					//alert(data[3]);
+					alert('HTTP error ' + status + ' while retrieving "' + url + '": ' + JSON.stringify(data, null, 2));	
+				}
 				
 				throw 'HTTP error ' + status + ' while retrieving "' + url + '"';
 			}
@@ -525,6 +527,11 @@ SztakipediaClient.update = function(callback, token, content, inputformat) {
 		alert('WARNING: A session is not available, continuing anyway.');
 	}
 	inputformat = inputformat || 'wikitext';
+
+	if (content.length > 4000) {
+		// alert("Truncate! From "+content.length+" to 4000");
+		content = content.substring(0,3999);
+	}	
 
 	// TODO use POST instead
 	SztakipediaClient.doGet( {
